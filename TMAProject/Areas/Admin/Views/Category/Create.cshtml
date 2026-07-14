@@ -1,0 +1,65 @@
+@model TMAProject.ViewModels.Admin.CategoryVM.CategoryCreateVM
+@{
+    ViewData["Title"] = "Create Category";
+    ViewData["ActivePage"] = "Categories";
+}
+
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Add Category</h1>
+        <ul class="breadcrumbs">
+            <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            <li><a asp-area="Admin" asp-controller="Category" asp-action="Index">Categories</a></li>
+            <li class="active">Add</li>
+        </ul>
+    </div>
+    <div>
+        <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="btn-primary-gradient" style="background: var(--border-color); color: var(--text-primary); box-shadow: none; text-decoration: none;">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>
+
+<div class="card-glass" style="max-width: 600px; margin: 0 auto 32px auto;">
+    <h3 style="margin-bottom: 24px;">Category Details</h3>
+    
+    <form asp-area="Admin" asp-controller="Category" asp-action="Create" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 20px;">
+        
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label asp-for="Name" style="font-weight: 500; font-size: 0.9rem; color: var(--text-secondary);">Category Name *</label>
+            <input asp-for="Name" class="select-custom" style="width: 100%; border-radius: 8px; padding: 10px; cursor: text;" placeholder="e.g., Summer Collection, Outerwear" />
+            <span asp-validation-for="Name" style="color: var(--danger); font-size: 0.8rem; font-weight: 500;"></span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label asp-for="Description" style="font-weight: 500; font-size: 0.9rem; color: var(--text-secondary);">Description</label>
+            <textarea asp-for="Description" class="select-custom" style="width: 100%; border-radius: 8px; padding: 10px; cursor: text; min-height: 120px; font-family: inherit;" placeholder="Brief description of products in this category..."></textarea>
+            <span asp-validation-for="Description" style="color: var(--danger); font-size: 0.8rem; font-weight: 500;"></span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label asp-for="Image" style="font-weight: 500; font-size: 0.9rem; color: var(--text-secondary);">Upload Banner Image</label>
+            <input asp-for="Image" type="file" accept="image/*" class="select-custom" style="width: 100%; border-radius: 8px; padding: 8px;" />
+            <span asp-validation-for="Image" style="color: var(--danger); font-size: 0.8rem; font-weight: 500;"></span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label asp-for="Status" style="font-weight: 500; font-size: 0.9rem; color: var(--text-secondary);">Publish Status</label>
+            <select asp-for="Status" asp-items="Html.GetEnumSelectList<TMAProject.Models.Enums.CategoryStatus>()" class="select-custom" style="width: 100%; border-radius: 8px; padding: 10px;"></select>
+            <span asp-validation-for="Status" style="color: var(--danger); font-size: 0.8rem; font-weight: 500;"></span>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 12px; border-top: 1px solid var(--border-color); padding-top: 24px;">
+            <button type="submit" class="btn-primary-gradient" style="flex-grow: 1; justify-content: center; padding: 12px;">
+                <i class="fas fa-circle-check"></i> Create Category
+            </button>
+            <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="btn-primary-gradient" style="background: var(--border-color); color: var(--text-primary); box-shadow: none; text-decoration: none; padding: 12px; display: flex; align-items: center; justify-content: center;">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

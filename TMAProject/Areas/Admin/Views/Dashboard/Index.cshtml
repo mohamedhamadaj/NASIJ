@@ -1,0 +1,255 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["ActivePage"] = "Dashboard";
+}
+
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Dashboard</h1>
+        <ul class="breadcrumbs">
+            <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            <li class="active">Dashboard</li>
+        </ul>
+    </div>
+    <div>
+        <button class="btn-primary-gradient">
+            <i class="fas fa-plus"></i> Add New Product
+        </button>
+    </div>
+</div>
+
+<!-- Stats Dashboard Grid -->
+<div class="stats-grid">
+    <div class="card-glass stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Total Revenue</span>
+            <span class="stat-value">$24,850.00</span>
+            <span class="stat-change up">
+                <i class="fas fa-arrow-up"></i> +12% this month
+            </span>
+        </div>
+        <div class="stat-icon icon-purple">
+            <i class="fas fa-dollar-sign"></i>
+        </div>
+    </div>
+    
+    <div class="card-glass stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Clothes Sold</span>
+            <span class="stat-value">1,482 items</span>
+            <span class="stat-change up">
+                <i class="fas fa-arrow-up"></i> +8.4% this week
+            </span>
+        </div>
+        <div class="stat-icon icon-blue">
+            <i class="fas fa-bag-shopping"></i>
+        </div>
+    </div>
+
+    <div class="card-glass stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Total Inventory</span>
+            <span class="stat-value">540 styles</span>
+            <span class="stat-change down">
+                <i class="fas fa-arrow-down"></i> -1.2% stock level
+            </span>
+        </div>
+        <div class="stat-icon icon-green">
+            <i class="fas fa-tshirt"></i>
+        </div>
+    </div>
+
+    <div class="card-glass stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Low Stock Alerts</span>
+            <span class="stat-value">14 items</span>
+            <span class="stat-change down" style="color: var(--danger)">
+                <i class="fas fa-triangle-exclamation"></i> Action required
+            </span>
+        </div>
+        <div class="stat-icon icon-orange">
+            <i class="fas fa-triangle-exclamation"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Main Graphic Analytics & Order List -->
+<div class="dashboard-grid">
+    <!-- Chart Container -->
+    <div class="card-glass">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3>Sales Performance</h3>
+            <select class="select-custom">
+                <option>Last 7 Days</option>
+                <option>Last 30 Days</option>
+                <option>This Year</option>
+            </select>
+        </div>
+        <div style="height: 320px; position: relative;">
+            <canvas id="salesChart"></canvas>
+        </div>
+    </div>
+    
+    <!-- Top Categories / Visual Ratio -->
+    <div class="card-glass" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+            <h3 style="margin-bottom: 20px;">Category Breakdown</h3>
+            <div style="height: 220px; position: relative; margin-bottom: 16px;">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-around; font-size: 0.8rem; color: var(--text-secondary);">
+            <span><i class="fas fa-circle" style="color: #8b5cf6;"></i> Outerwear</span>
+            <span><i class="fas fa-circle" style="color: #3b82f6;"></i> Tops</span>
+            <span><i class="fas fa-circle" style="color: #10b981;"></i> Bottoms</span>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Clothing Orders -->
+<div class="card-glass" style="margin-bottom: 32px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3>Recent Orders</h3>
+        <a href="#" style="color: var(--accent); text-decoration: none; font-size: 0.9rem; font-weight: 600;">View All Orders</a>
+    </div>
+    <div class="table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Item(s)</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#ORD-84920</td>
+                    <td>Eleanor Vance</td>
+                    <td>Oversized Denim Jacket (M)</td>
+                    <td>$89.99</td>
+                    <td><span class="badge-status badge-success"><i class="fas fa-check-circle"></i> Shipped</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-action" title="View Detail"><i class="fas fa-eye"></i></button>
+                            <button class="btn-action" title="Edit Order"><i class="fas fa-pen"></i></button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>#ORD-84919</td>
+                    <td>Marcus Brody</td>
+                    <td>Slim Fit Linen Shirt (L), Chino Pants (32)</td>
+                    <td>$145.00</td>
+                    <td><span class="badge-status badge-warning"><i class="fas fa-clock"></i> Processing</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-action" title="View Detail"><i class="fas fa-eye"></i></button>
+                            <button class="btn-action" title="Edit Order"><i class="fas fa-pen"></i></button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>#ORD-84918</td>
+                    <td>Lara Croft</td>
+                    <td>Cargo Utility Pants (S)</td>
+                    <td>$75.00</td>
+                    <td><span class="badge-status badge-success"><i class="fas fa-check-circle"></i> Shipped</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-action" title="View Detail"><i class="fas fa-eye"></i></button>
+                            <button class="btn-action" title="Edit Order"><i class="fas fa-pen"></i></button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>#ORD-84917</td>
+                    <td>Indiana Jones</td>
+                    <td>Classic Brown Leather Fedora (XL)</td>
+                    <td>$120.00</td>
+                    <td><span class="badge-status badge-danger"><i class="fas fa-circle-xmark"></i> Cancelled</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-action" title="View Detail"><i class="fas fa-eye"></i></button>
+                            <button class="btn-action" title="Edit Order"><i class="fas fa-pen"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+            const gridColor = isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
+            const textColor = isDark ? '#9ca3af' : '#475569';
+
+            // 1. Sales Performance Area Chart
+            const ctxSales = document.getElementById('salesChart').getContext('2d');
+            new Chart(ctxSales, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Sales Revenue ($)',
+                        data: [1200, 1900, 1500, 2500, 2200, 3000, 2800],
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#8b5cf6',
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        },
+                        y: {
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        }
+                    }
+                }
+            });
+
+            // 2. Category Breakdown Donut Chart
+            const ctxCat = document.getElementById('categoryChart').getContext('2d');
+            new Chart(ctxCat, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Outerwear', 'Tops', 'Bottoms'],
+                    datasets: [{
+                        data: [45, 30, 25],
+                        backgroundColor: ['#8b5cf6', '#3b82f6', '#10b981'],
+                        borderColor: 'transparent',
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    cutout: '75%'
+                }
+            });
+        });
+    </script>
+}

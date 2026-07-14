@@ -1,0 +1,548 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Dell\\source\\repos\\TMAProject\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\services\\implementations\\imageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\services\\implementations\\imageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\areas\\admin\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\areas\\admin\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\services\\implementations\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\services\\implementations\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\areas\\admin\\views\\product\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\areas\\admin\\views\\product\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\areas\\admin\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\areas\\admin\\controllers\\categorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\areas\\admin\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\areas\\admin\\controllers\\dashboardcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\appconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\appconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\services\\interfaces\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\services\\interfaces\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\repository\\implementations\\sizerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\repository\\implementations\\sizerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\repository\\interfaces\\isizerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\repository\\interfaces\\isizerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\areas\\admin\\views\\product\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\areas\\admin\\views\\product\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\areas\\admin\\views\\product\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\areas\\admin\\views\\product\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\viewmodels\\admin\\productvm\\producteditvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\viewmodels\\admin\\productvm\\producteditvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\viewmodels\\admin\\productvm\\productcreatepagevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\viewmodels\\admin\\productvm\\productcreatepagevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\repository\\implementations\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\repository\\implementations\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\repository\\interfaces\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\repository\\interfaces\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\repository\\interfaces\\icolorreposirory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\repository\\interfaces\\icolorreposirory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\repository\\implementations\\colorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\repository\\implementations\\colorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\repository\\implementations\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\repository\\implementations\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\viewmodels\\admin\\productvm\\productcreatevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\viewmodels\\admin\\productvm\\productcreatevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\services\\implementations\\categoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\services\\implementations\\categoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\repository\\interfaces\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\repository\\interfaces\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\viewmodels\\admin\\productvm\\productvariantvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\viewmodels\\admin\\productvm\\productvariantvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\viewmodels\\admin\\productvm\\productsubimagevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\viewmodels\\admin\\productvm\\productsubimagevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\services\\interfaces\\icategoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\services\\interfaces\\icategoryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\viewmodels\\admin\\productvm\\productlistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\viewmodels\\admin\\productvm\\productlistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\models\\entities\\productvariant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\models\\entities\\productvariant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\viewmodels\\admin\\categoryvm\\categorylistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\viewmodels\\admin\\categoryvm\\categorylistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\viewmodels\\admin\\categoryvm\\categoryeditvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\viewmodels\\admin\\categoryvm\\categoryeditvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|c:\\users\\dell\\source\\repos\\tmaproject\\tmaproject\\viewmodels\\admin\\categoryvm\\categorycreatevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB0F0EA3-5089-94FA-9CA5-87BA828F024B}|TMAProject\\TMAProject.csproj|solutionrelative:tmaproject\\viewmodels\\admin\\categoryvm\\categorycreatevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Services\\Implementations\\ProductService.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Services\\Implementations\\ProductService.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Services\\Implementations\\ProductService.cs",
+              "RelativeToolTip": "TMAProject\\Services\\Implementations\\ProductService.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAA6wCMAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T05:44:43.493Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AppConfiguration.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\AppConfiguration.cs",
+              "RelativeDocumentMoniker": "TMAProject\\AppConfiguration.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\AppConfiguration.cs",
+              "RelativeToolTip": "TMAProject\\AppConfiguration.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAUwC4AAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T09:53:24.495Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ImageService.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Services\\Implementations\\ImageService.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Services\\Implementations\\ImageService.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Services\\Implementations\\ImageService.cs",
+              "RelativeToolTip": "TMAProject\\Services\\Implementations\\ImageService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T09:10:24.493Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CategoryController.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Controllers\\CategoryController.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Areas\\Admin\\Controllers\\CategoryController.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Controllers\\CategoryController.cs",
+              "RelativeToolTip": "TMAProject\\Areas\\Admin\\Controllers\\CategoryController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T09:04:13.639Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Views\\Product\\Create.cshtml",
+              "RelativeDocumentMoniker": "TMAProject\\Areas\\Admin\\Views\\Product\\Create.cshtml",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Views\\Product\\Create.cshtml",
+              "RelativeToolTip": "TMAProject\\Areas\\Admin\\Views\\Product\\Create.cshtml",
+              "ViewState": "AgIAAHABAAAAAAAAAAAmwI0BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-14T09:39:20.14Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "TMAProject\\Areas\\Admin\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAiwDoAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T08:28:33.648Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IProductService.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Services\\Interfaces\\IProductService.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Services\\Interfaces\\IProductService.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Services\\Interfaces\\IProductService.cs",
+              "RelativeToolTip": "TMAProject\\Services\\Interfaces\\IProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T05:30:58.326Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DashboardController.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Controllers\\DashboardController.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Areas\\Admin\\Controllers\\DashboardController.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Controllers\\DashboardController.cs",
+              "RelativeToolTip": "TMAProject\\Areas\\Admin\\Controllers\\DashboardController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T10:24:43.647Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ISizeRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Interfaces\\ISizeRepository.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Repository\\Interfaces\\ISizeRepository.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Interfaces\\ISizeRepository.cs",
+              "RelativeToolTip": "TMAProject\\Repository\\Interfaces\\ISizeRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T08:03:32.154Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Program.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Program.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Program.cs",
+              "RelativeToolTip": "TMAProject\\Program.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAmwBMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T09:52:25.982Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Views\\Product\\Index.cshtml",
+              "RelativeDocumentMoniker": "TMAProject\\Areas\\Admin\\Views\\Product\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Views\\Product\\Index.cshtml",
+              "RelativeToolTip": "TMAProject\\Areas\\Admin\\Views\\Product\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-14T09:40:23.114Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "SizeRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Implementations\\SizeRepository.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Repository\\Implementations\\SizeRepository.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Implementations\\SizeRepository.cs",
+              "RelativeToolTip": "TMAProject\\Repository\\Implementations\\SizeRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T08:04:09.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "TMAProject\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "TMAProject\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACwAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-14T09:34:59.961Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Views\\Product\\Edit.cshtml",
+              "RelativeDocumentMoniker": "TMAProject\\Areas\\Admin\\Views\\Product\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Areas\\Admin\\Views\\Product\\Edit.cshtml",
+              "RelativeToolTip": "TMAProject\\Areas\\Admin\\Views\\Product\\Edit.cshtml",
+              "ViewState": "AgIAAOcBAAAAAAAAAAAwwAQCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-14T09:41:57.404Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ProductCreatePageVM.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\ProductVM\\ProductCreatePageVM.cs",
+              "RelativeDocumentMoniker": "TMAProject\\ViewModels\\Admin\\ProductVM\\ProductCreatePageVM.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\ProductVM\\ProductCreatePageVM.cs",
+              "RelativeToolTip": "TMAProject\\ViewModels\\Admin\\ProductVM\\ProductCreatePageVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T04:11:21.576Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "CategoryRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Implementations\\CategoryRepository.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Repository\\Implementations\\CategoryRepository.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Implementations\\CategoryRepository.cs",
+              "RelativeToolTip": "TMAProject\\Repository\\Implementations\\CategoryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T04:23:17.226Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ProductEditVM.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\ProductVM\\ProductEditVM.cs",
+              "RelativeDocumentMoniker": "TMAProject\\ViewModels\\Admin\\ProductVM\\ProductEditVM.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\ProductVM\\ProductEditVM.cs",
+              "RelativeToolTip": "TMAProject\\ViewModels\\Admin\\ProductVM\\ProductEditVM.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAkwCAAAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T04:02:33.348Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "IColorReposirory.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Interfaces\\IColorReposirory.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Repository\\Interfaces\\IColorReposirory.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Interfaces\\IColorReposirory.cs",
+              "RelativeToolTip": "TMAProject\\Repository\\Interfaces\\IColorReposirory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T08:03:12.956Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ColorRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Implementations\\ColorRepository.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Repository\\Implementations\\ColorRepository.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Implementations\\ColorRepository.cs",
+              "RelativeToolTip": "TMAProject\\Repository\\Implementations\\ColorRepository.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAC4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T08:03:52.766Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ICategoryRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Interfaces\\ICategoryRepository.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Repository\\Interfaces\\ICategoryRepository.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Interfaces\\ICategoryRepository.cs",
+              "RelativeToolTip": "TMAProject\\Repository\\Interfaces\\ICategoryRepository.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABQAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T03:46:12.352Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Implementations\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Repository\\Implementations\\ProductRepository.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Implementations\\ProductRepository.cs",
+              "RelativeToolTip": "TMAProject\\Repository\\Implementations\\ProductRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAABmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T04:23:39.046Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "CategoryService.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Services\\Implementations\\CategoryService.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Services\\Implementations\\CategoryService.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Services\\Implementations\\CategoryService.cs",
+              "RelativeToolTip": "TMAProject\\Services\\Implementations\\CategoryService.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAzwB4AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T05:46:32.893Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ProductCreateVM.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\ProductVM\\ProductCreateVM.cs",
+              "RelativeDocumentMoniker": "TMAProject\\ViewModels\\Admin\\ProductVM\\ProductCreateVM.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\ProductVM\\ProductCreateVM.cs",
+              "RelativeToolTip": "TMAProject\\ViewModels\\Admin\\ProductVM\\ProductCreateVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwBEAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T03:56:05.54Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "IProductRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Interfaces\\IProductRepository.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Repository\\Interfaces\\IProductRepository.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Repository\\Interfaces\\IProductRepository.cs",
+              "RelativeToolTip": "TMAProject\\Repository\\Interfaces\\IProductRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T03:45:37.12Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "ProductSubImageVM.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\ProductVM\\ProductSubImageVM.cs",
+              "RelativeDocumentMoniker": "TMAProject\\ViewModels\\Admin\\ProductVM\\ProductSubImageVM.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\ProductVM\\ProductSubImageVM.cs",
+              "RelativeToolTip": "TMAProject\\ViewModels\\Admin\\ProductVM\\ProductSubImageVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T04:05:42.215Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "ProductVariantVM.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\ProductVM\\ProductVariantVM.cs",
+              "RelativeDocumentMoniker": "TMAProject\\ViewModels\\Admin\\ProductVM\\ProductVariantVM.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\ProductVM\\ProductVariantVM.cs",
+              "RelativeToolTip": "TMAProject\\ViewModels\\Admin\\ProductVM\\ProductVariantVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T04:03:20.098Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "ICategoryService.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Services\\Interfaces\\ICategoryService.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Services\\Interfaces\\ICategoryService.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Services\\Interfaces\\ICategoryService.cs",
+              "RelativeToolTip": "TMAProject\\Services\\Interfaces\\ICategoryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T05:31:00.341Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "ProductListVM.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\ProductVM\\ProductListVM.cs",
+              "RelativeDocumentMoniker": "TMAProject\\ViewModels\\Admin\\ProductVM\\ProductListVM.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\ProductVM\\ProductListVM.cs",
+              "RelativeToolTip": "TMAProject\\ViewModels\\Admin\\ProductVM\\ProductListVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T03:47:22.946Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "ProductVariant.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Models\\Entities\\ProductVariant.cs",
+              "RelativeDocumentMoniker": "TMAProject\\Models\\Entities\\ProductVariant.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\Models\\Entities\\ProductVariant.cs",
+              "RelativeToolTip": "TMAProject\\Models\\Entities\\ProductVariant.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T03:56:54.906Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "CategoryListVm.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\CategoryVM\\CategoryListVm.cs",
+              "RelativeDocumentMoniker": "TMAProject\\ViewModels\\Admin\\CategoryVM\\CategoryListVm.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\CategoryVM\\CategoryListVm.cs",
+              "RelativeToolTip": "TMAProject\\ViewModels\\Admin\\CategoryVM\\CategoryListVm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T03:49:03.748Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "CategoryEditVM.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\CategoryVM\\CategoryEditVM.cs",
+              "RelativeDocumentMoniker": "TMAProject\\ViewModels\\Admin\\CategoryVM\\CategoryEditVM.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\CategoryVM\\CategoryEditVM.cs",
+              "RelativeToolTip": "TMAProject\\ViewModels\\Admin\\CategoryVM\\CategoryEditVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T03:48:59.328Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "CategoryCreateVM.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\CategoryVM\\CategoryCreateVM.cs",
+              "RelativeDocumentMoniker": "TMAProject\\ViewModels\\Admin\\CategoryVM\\CategoryCreateVM.cs",
+              "ToolTip": "C:\\Users\\Dell\\source\\repos\\TMAProject\\TMAProject\\ViewModels\\Admin\\CategoryVM\\CategoryCreateVM.cs",
+              "RelativeToolTip": "TMAProject\\ViewModels\\Admin\\CategoryVM\\CategoryCreateVM.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-14T03:48:55.07Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

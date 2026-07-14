@@ -1,0 +1,213 @@
+@model IEnumerable<TMAProject.ViewModels.Admin.ProductVM.ProductListVM>
+@{
+    ViewData["Title"] = "Products Management";
+    ViewData["ActivePage"] = "Products";
+}
+
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Products</h1>
+        <ul class="breadcrumbs">
+            <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            <li class="active">Products</li>
+        </ul>
+    </div>
+    <div>
+        <a asp-area="Admin" asp-controller="Product" asp-action="Create"
+           class="btn-primary-gradient" style="text-decoration: none;">
+            <i class="fas fa-plus"></i> Add Product
+        </a>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert-success-bar">
+        <span><i class="fas fa-circle-check"></i> @TempData["Success"]</span>
+        <button onclick="this.parentElement.remove()" class="alert-close-btn"><i class="fas fa-xmark"></i></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert-error-bar">
+        <span><i class="fas fa-circle-xmark"></i> @TempData["Error"]</span>
+        <button onclick="this.parentElement.remove()" class="alert-close-btn"><i class="fas fa-xmark"></i></button>
+    </div>
+}
+
+<div class="card-glass" style="margin-bottom: 32px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h3>Product List</h3>
+        <span style="font-size: 0.9rem; color: var(--text-secondary);">Total Products: @Model.Count()</span>
+    </div>
+
+    <div class="table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                            <i class="fas fa-box-open" style="font-size: 2.5rem; margin-bottom: 12px; display: block; color: var(--text-muted);"></i>
+                            No products found. Click "Add Product" to create one.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="product-thumb">
+                                    @if (!string.IsNullOrEmpty(item.MainImage))
+                                    {
+                                        <img src="@item.MainImage" alt="@item.ProductName" />
+                                    }
+                                    else
+                                    {
+                                        <div class="product-thumb-placeholder">
+                                            <i class="fas fa-shirt"></i>
+                                        </div>
+                                    }
+                                </div>
+                            </td>
+                            <td style="font-weight: 600;">@item.ProductName</td>
+                            <td style="color: var(--text-secondary);">@item.CategoryName</td>
+                            <td style="font-weight: 600; color: var(--accent);">$@item.Price.ToString("0.00")</td>
+                            <td>
+                                @if (item.DiscountPercentage.HasValue && item.DiscountPercentage > 0)
+                                {
+                                    <span class="badge-status" style="background: rgba(251,191,36,0.15); color: #f59e0b;">
+                                        <i class="fas fa-tag"></i> @item.DiscountPercentage%
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span style="color: var(--text-muted); font-size: 0.85rem;">—</span>
+                                }
+                            </td>
+                            <td>
+                                <span class="badge-status" style="background: rgba(99,102,241,0.12); color: #818cf8;">
+                                    @item.TotalStock units
+                                </span>
+                            </td>
+                            <td>
+                                @if (item.Status == TMAProject.Models.Enums.ProductStatus.Active)
+                                {
+                                    <span class="badge-status badge-success">
+                                        <i class="fas fa-circle-check"></i> Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge-status badge-danger" style="background-color: rgba(239,68,68,0.15); color: #ef4444;">
+                                        <i class="fas fa-circle-xmark"></i> Inactive
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <a asp-area="Admin" asp-controller="Product" asp-action="Edit"
+                                       asp-route-id="@item.ProductId"
+                                       class="btn-action" title="Edit Product" style="text-decoration: none;">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                    <form asp-area="Admin"
+                                          asp-controller="Product"
+                                          asp-action="Delete"
+                                          asp-route-id="@item.ProductId"
+                                          method="post"
+                                          onsubmit="return confirm('Are you sure you want to delete \'@item.ProductName\'?');"
+                                          style="display: inline;">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn-action btn-delete" title="Delete Product">
+                                            <i class="fas fa-trash-can"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .alert-success-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        padding: 14px 20px;
+        border-radius: 10px;
+        border: 1px solid var(--success);
+        background-color: var(--success-light, rgba(34,197,94,0.1));
+        color: var(--success, #22c55e);
+        font-weight: 500;
+    }
+
+    .alert-error-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        padding: 14px 20px;
+        border-radius: 10px;
+        border: 1px solid #ef4444;
+        background-color: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        font-weight: 500;
+    }
+
+    .alert-close-btn {
+        background: none;
+        border: none;
+        color: inherit;
+        cursor: pointer;
+        font-size: 1rem;
+        line-height: 1;
+        padding: 0;
+    }
+
+    .product-thumb {
+        width: 56px;
+        height: 56px;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+        background-color: var(--bg-primary);
+        flex-shrink: 0;
+    }
+
+    .product-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .product-thumb-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-muted);
+        font-size: 1.4rem;
+    }
+</style>

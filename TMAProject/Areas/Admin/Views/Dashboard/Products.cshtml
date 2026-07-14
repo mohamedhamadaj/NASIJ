@@ -1,0 +1,281 @@
+@{
+    ViewData["Title"] = "Clothes Inventory";
+    ViewData["ActivePage"] = "Products";
+}
+
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Clothes Stock</h1>
+        <ul class="breadcrumbs">
+            <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            <li class="active">Clothes Stock</li>
+        </ul>
+    </div>
+    <div>
+        <button class="btn-primary-gradient">
+            <i class="fas fa-plus"></i> Add Clothing Item
+        </button>
+    </div>
+</div>
+
+<!-- Filters bar -->
+<div class="card-glass filter-bar">
+    <div class="filter-group">
+        <select class="select-custom" id="categoryFilter">
+            <option value="all">All Categories</option>
+            <option value="outerwear">Outerwear</option>
+            <option value="tops">Tops</option>
+            <option value="bottoms">Bottoms</option>
+            <option value="accessories">Accessories</option>
+        </select>
+        
+        <select class="select-custom" id="sizeFilter">
+            <option value="all">All Sizes</option>
+            <option value="S">S (Small)</option>
+            <option value="M">M (Medium)</option>
+            <option value="L">L (Large)</option>
+            <option value="XL">XL (Extra Large)</option>
+        </select>
+        
+        <select class="select-custom" id="stockFilter">
+            <option value="all">All Stock Status</option>
+            <option value="instock">In Stock</option>
+            <option value="lowstock">Low Stock</option>
+            <option value="out">Out of Stock</option>
+        </select>
+    </div>
+    
+    <div class="filter-group">
+        <span style="font-size: 0.9rem; color: var(--text-secondary);">Showing 6 Items</span>
+    </div>
+</div>
+
+<!-- Clothes Grid -->
+<div class="product-grid">
+    <!-- Item 1 -->
+    <div class="card-glass product-card" data-category="outerwear" data-stock="instock">
+        <div class="product-image-wrapper">
+            <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=400&q=80" alt="Leather Jacket" class="product-image" />
+            <span class="product-badge badge-status badge-success">In Stock</span>
+        </div>
+        <span class="product-category">Outerwear</span>
+        <h4 class="product-name">Vintage Leather Bomber Jacket</h4>
+        
+        <div class="product-sizes">
+            <span class="size-pill available">S</span>
+            <span class="size-pill available selected">M</span>
+            <span class="size-pill available">L</span>
+            <span class="size-pill">XL</span>
+        </div>
+        
+        <div class="product-price-stock">
+            <div>
+                <span class="product-price">$189.99</span>
+            </div>
+            <div style="text-align: right;">
+                <span class="product-stock">45 available</span>
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+            <button class="btn-primary-gradient" style="flex-grow: 1; padding: 8px; justify-content: center; font-size: 0.85rem;">
+                <i class="fas fa-pen"></i> Edit
+            </button>
+            <button class="btn-action btn-delete" style="height: 38px; width: 38px;"><i class="fas fa-trash-can"></i></button>
+        </div>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="card-glass product-card" data-category="tops" data-stock="lowstock">
+        <div class="product-image-wrapper">
+            <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=400&q=80" alt="Black Tee" class="product-image" />
+            <span class="product-badge badge-status badge-warning">Low Stock (8)</span>
+        </div>
+        <span class="product-category">Tops</span>
+        <h4 class="product-name">Minimalist Black Cotton T-Shirt</h4>
+        
+        <div class="product-sizes">
+            <span class="size-pill available">S</span>
+            <span class="size-pill available">M</span>
+            <span class="size-pill available selected">L</span>
+            <span class="size-pill available">XL</span>
+        </div>
+        
+        <div class="product-price-stock">
+            <div>
+                <span class="product-price">$29.99</span>
+            </div>
+            <div style="text-align: right;">
+                <span class="product-stock">8 available</span>
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+            <button class="btn-primary-gradient" style="flex-grow: 1; padding: 8px; justify-content: center; font-size: 0.85rem;">
+                <i class="fas fa-pen"></i> Edit
+            </button>
+            <button class="btn-action btn-delete" style="height: 38px; width: 38px;"><i class="fas fa-trash-can"></i></button>
+        </div>
+    </div>
+
+    <!-- Item 3 -->
+    <div class="card-glass product-card" data-category="bottoms" data-stock="instock">
+        <div class="product-image-wrapper">
+            <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=400&q=80" alt="Denim Jeans" class="product-image" />
+            <span class="product-badge badge-status badge-success">In Stock</span>
+        </div>
+        <span class="product-category">Bottoms</span>
+        <h4 class="product-name">Slim Fit Distressed Denim Jeans</h4>
+        
+        <div class="product-sizes">
+            <span class="size-pill">S</span>
+            <span class="size-pill available selected">M</span>
+            <span class="size-pill available">L</span>
+            <span class="size-pill available">XL</span>
+        </div>
+        
+        <div class="product-price-stock">
+            <div>
+                <span class="product-price">$79.99</span>
+            </div>
+            <div style="text-align: right;">
+                <span class="product-stock">24 available</span>
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+            <button class="btn-primary-gradient" style="flex-grow: 1; padding: 8px; justify-content: center; font-size: 0.85rem;">
+                <i class="fas fa-pen"></i> Edit
+            </button>
+            <button class="btn-action btn-delete" style="height: 38px; width: 38px;"><i class="fas fa-trash-can"></i></button>
+        </div>
+    </div>
+
+    <!-- Item 4 -->
+    <div class="card-glass product-card" data-category="outerwear" data-stock="out">
+        <div class="product-image-wrapper">
+            <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=400&q=80" alt="Beige Trench Coat" class="product-image" />
+            <span class="product-badge badge-status badge-danger">Out of Stock</span>
+        </div>
+        <span class="product-category">Outerwear</span>
+        <h4 class="product-name">Classic Beige Double-Breasted Trench</h4>
+        
+        <div class="product-sizes">
+            <span class="size-pill">S</span>
+            <span class="size-pill">M</span>
+            <span class="size-pill">L</span>
+            <span class="size-pill">XL</span>
+        </div>
+        
+        <div class="product-price-stock">
+            <div>
+                <span class="product-price">$149.99</span>
+            </div>
+            <div style="text-align: right;">
+                <span class="product-stock" style="color: var(--danger)">Out of stock</span>
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+            <button class="btn-primary-gradient" style="flex-grow: 1; padding: 8px; justify-content: center; font-size: 0.85rem;">
+                <i class="fas fa-pen"></i> Edit
+            </button>
+            <button class="btn-action btn-delete" style="height: 38px; width: 38px;"><i class="fas fa-trash-can"></i></button>
+        </div>
+    </div>
+
+    <!-- Item 5 -->
+    <div class="card-glass product-card" data-category="tops" data-stock="instock">
+        <div class="product-image-wrapper">
+            <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=400&q=80" alt="Knit Sweater" class="product-image" />
+            <span class="product-badge badge-status badge-success">In Stock</span>
+        </div>
+        <span class="product-category">Tops</span>
+        <h4 class="product-name">Oversized Knit Cotton Sweater</h4>
+        
+        <div class="product-sizes">
+            <span class="size-pill available">S</span>
+            <span class="size-pill available selected">M</span>
+            <span class="size-pill available">L</span>
+            <span class="size-pill">XL</span>
+        </div>
+        
+        <div class="product-price-stock">
+            <div>
+                <span class="product-price">$64.99</span>
+            </div>
+            <div style="text-align: right;">
+                <span class="product-stock">31 available</span>
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+            <button class="btn-primary-gradient" style="flex-grow: 1; padding: 8px; justify-content: center; font-size: 0.85rem;">
+                <i class="fas fa-pen"></i> Edit
+            </button>
+            <button class="btn-action btn-delete" style="height: 38px; width: 38px;"><i class="fas fa-trash-can"></i></button>
+        </div>
+    </div>
+
+    <!-- Item 6 -->
+    <div class="card-glass product-card" data-category="accessories" data-stock="instock">
+        <div class="product-image-wrapper">
+            <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=400&q=80" alt="Leather Belt" class="product-image" />
+            <span class="product-badge badge-status badge-success">In Stock</span>
+        </div>
+        <span class="product-category">Accessories</span>
+        <h4 class="product-name">Handcrafted Tan Leather Dress Belt</h4>
+        
+        <div class="product-sizes">
+            <span class="size-pill available">S</span>
+            <span class="size-pill available selected">M</span>
+            <span class="size-pill available">L</span>
+            <span class="size-pill">XL</span>
+        </div>
+        
+        <div class="product-price-stock">
+            <div>
+                <span class="product-price">$45.00</span>
+            </div>
+            <div style="text-align: right;">
+                <span class="product-stock">18 available</span>
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+            <button class="btn-primary-gradient" style="flex-grow: 1; padding: 8px; justify-content: center; font-size: 0.85rem;">
+                <i class="fas fa-pen"></i> Edit
+            </button>
+            <button class="btn-action btn-delete" style="height: 38px; width: 38px;"><i class="fas fa-trash-can"></i></button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const stockFilter = document.getElementById('stockFilter');
+            const cards = document.querySelectorAll('.product-card');
+
+            function applyFilters() {
+                const categoryVal = categoryFilter.value;
+                const stockVal = stockFilter.value;
+
+                cards.forEach(card => {
+                    const matchesCategory = categoryVal === 'all' || card.getAttribute('data-category') === categoryVal;
+                    const matchesStock = stockVal === 'all' || card.getAttribute('data-stock') === stockVal;
+
+                    if (matchesCategory && matchesStock) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            if (categoryFilter) categoryFilter.addEventListener('change', applyFilters);
+            if (stockFilter) stockFilter.addEventListener('change', applyFilters);
+        });
+    </script>
+}

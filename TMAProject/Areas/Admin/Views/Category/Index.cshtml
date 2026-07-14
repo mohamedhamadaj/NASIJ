@@ -1,0 +1,128 @@
+@model IEnumerable<TMAProject.ViewModels.Admin.CategoryVM.CategoryListVm>
+@{
+    ViewData["Title"] = "Categories Management";
+    ViewData["ActivePage"] = "Categories";
+}
+
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Categories</h1>
+        <ul class="breadcrumbs">
+            <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            <li class="active">Categories</li>
+        </ul>
+    </div>
+    <div>
+        <a asp-area="Admin" asp-controller="Category" asp-action="Create" class="btn-primary-gradient" style="text-decoration: none;">
+            <i class="fas fa-plus"></i> Add Category
+        </a>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="card-glass" style="margin-bottom: 24px; padding: 16px; border-color: var(--success); background-color: var(--success-light); color: var(--success); display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-weight: 500;"><i class="fas fa-circle-check" style="margin-right: 8px;"></i> @TempData["Success"]</span>
+        <button onclick="this.parentElement.remove()" style="background: none; border: none; color: inherit; cursor: pointer;"><i class="fas fa-xmark"></i></button>
+    </div>
+}
+
+<div class="card-glass" style="margin-bottom: 32px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h3>Category List</h3>
+        <span style="font-size: 0.9rem; color: var(--text-secondary);">Total Categories: @Model.Count()</span>
+    </div>
+    
+    <div class="table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Products Count</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 32px; color: var(--text-secondary);">
+                            <i class="fas fa-folder-open" style="font-size: 2rem; margin-bottom: 12px; display: block; color: var(--text-muted);"></i>
+                            No categories found. Click "Add Category" to create one.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div style="width: 50px; height: 50px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); background-color: var(--bg-primary);">
+                                    @if (!string.IsNullOrEmpty(item.CategoryImageUrl))
+                                    {
+                                        <img src="@item.CategoryImageUrl" alt="@item.CategoryName" style="width: 100%; height: 100%; object-fit: cover;" />
+                                    }
+                                    else
+                                    {
+                                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
+                                            <i class="fas fa-image"></i>
+                                        </div>
+                                    }
+                                </div>
+                            </td>
+                            <td style="font-weight: 600;">@item.CategoryName</td>
+                            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-secondary);">
+                                @(string.IsNullOrEmpty(item.CategoryDescription) ? "No description provided." : item.CategoryDescription)
+                            </td>
+                            <td>
+                                <span class="badge-status badge-success" style="background-color: var(--accent-light); color: var(--accent);">
+                                    @item.ProductCount items
+                                </span>
+                            </td>
+                            <td>
+                                @if (item.Status == TMAProject.Models.Enums.CategoryStatus.Active)
+                                {
+                                    <span class="badge-status badge-success">
+                                        <i class="fas fa-circle-check"></i> Active
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge-status badge-danger" style="background-color: rgba(239, 68, 68, 0.15); color: #ef4444;">
+                                        <i class="fas fa-circle-xmark"></i> Inactive
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <a asp-area="Admin" asp-controller="Category" asp-action="Edit" asp-route-id="@item.CategoryId" class="btn-action" title="Edit Category" style="text-decoration: none;">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                    <form asp-area="Admin"
+                                          asp-controller="Category"
+                                          asp-action="Delete"
+                                          asp-route-id="@item.CategoryId"
+                                          method="post"
+                                          onsubmit="return confirm('Are you sure you want to delete the category \'@item.CategoryName\'?');"
+                                          style="display: inline;">
+
+                                        @Html.AntiForgeryToken()
+
+                                        <button type="submit" class="btn-action btn-delete" title="Delete Category">
+                                            <i class="fas fa-trash-can"></i>
+                                        </button>
+
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,397 @@
+@model TMAProject.ViewModels.Admin.ProductVM.ProductCreatePageVM
+@{
+    ViewData["Title"] = "Create Product";
+    ViewData["ActivePage"] = "Products";
+}
+
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Create Product</h1>
+        <ul class="breadcrumbs">
+            <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            <li><a asp-area="Admin" asp-controller="Product" asp-action="Index">Products</a></li>
+            <li class="active">Create</li>
+        </ul>
+    </div>
+</div>
+
+<form asp-area="Admin" asp-controller="Product" asp-action="Create"
+      method="post" enctype="multipart/form-data" id="createProductForm">
+    @Html.AntiForgeryToken()
+
+    <div class="form-grid-two-col">
+
+        @* LEFT column *@
+        <div class="form-column">
+
+            @* Basic Info card *@
+            <div class="card-glass form-card">
+                <h3 class="form-card-title"><i class="fas fa-circle-info"></i> Basic Information</h3>
+
+                <div class="form-group">
+                    <label asp-for="Product.ProductName" class="form-label">Product Name <span class="required-star">*</span></label>
+                    <input asp-for="Product.ProductName" class="form-control" placeholder="e.g. Classic White Tee" />
+                    <span asp-validation-for="Product.ProductName" class="field-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Product.ProductDescription" class="form-label">Description</label>
+                    <textarea asp-for="Product.ProductDescription" class="form-control form-textarea"
+                              placeholder="Describe the product…"></textarea>
+                    <span asp-validation-for="Product.ProductDescription" class="field-error"></span>
+                </div>
+
+                <div class="form-row-two">
+                    <div class="form-group">
+                        <label asp-for="Product.ProductPrice" class="form-label">Price ($) <span class="required-star">*</span></label>
+                        <input asp-for="Product.ProductPrice" type="number" step="0.01" min="0"
+                               class="form-control" placeholder="0.00" />
+                        <span asp-validation-for="Product.ProductPrice" class="field-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Product.CategoryId" class="form-label">Category <span class="required-star">*</span></label>
+                        <select asp-for="Product.CategoryId" asp-items="Model.Categories" class="form-control form-select">
+                            <option value="">— Select category —</option>
+                        </select>
+                        <span asp-validation-for="Product.CategoryId" class="field-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Product.Status" class="form-label">Status</label>
+                    <select asp-for="Product.Status"
+                            asp-items="Html.GetEnumSelectList<TMAProject.Models.Enums.ProductStatus>()"
+                            class="form-control form-select"></select>
+                    <span asp-validation-for="Product.Status" class="field-error"></span>
+                </div>
+            </div>
+
+            @* Variants card *@
+            <div class="card-glass form-card">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+                    <h3 class="form-card-title" style="margin-bottom: 0;"><i class="fas fa-swatchbook"></i> Variants</h3>
+                    <button type="button" id="addVariantBtn" class="btn-secondary-sm">
+                        <i class="fas fa-plus"></i> Add Variant
+                    </button>
+                </div>
+
+                <div id="variantsContainer">
+                    @* Variant rows injected by JS *@
+                    <p id="noVariantsMsg" style="color: var(--text-muted); font-size: 0.9rem; text-align: center; padding: 16px 0;">
+                        No variants added yet. Click "Add Variant" to specify sizes, colors, and quantities.
+                    </p>
+                </div>
+
+                @* Variant row template (hidden) *@
+                <template id="variantRowTemplate">
+                    <div class="variant-row">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label-sm">Color</label>
+                            <select name="Product.Variants[__INDEX__].ColorId" class="form-control form-select">
+                                <option value="">— Color —</option>
+                                @foreach (var c in Model.Colors)
+                                {
+                                    <option value="@c.Value">@c.Text</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label-sm">Size</label>
+                            <select name="Product.Variants[__INDEX__].SizeId" class="form-control form-select">
+                                <option value="">— Size —</option>
+                                @foreach (var s in Model.Sizes)
+                                {
+                                    <option value="@s.Value">@s.Text</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label-sm">Qty</label>
+                            <input type="number" name="Product.Variants[__INDEX__].Quantity"
+                                   class="form-control" min="0" placeholder="0" />
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                            <label class="form-label-sm">Active</label>
+                            <input type="checkbox" name="Product.Variants[__INDEX__].IsActive"
+                                   value="true" checked class="form-checkbox" />
+                        </div>
+                        <button type="button" class="btn-remove-variant" title="Remove">
+                            <i class="fas fa-xmark"></i>
+                        </button>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        @* RIGHT column *@
+        <div class="form-column">
+
+            @* Main image card *@
+            <div class="card-glass form-card">
+                <h3 class="form-card-title"><i class="fas fa-image"></i> Main Image</h3>
+                <div class="image-upload-zone" id="mainImageZone">
+                    <i class="fas fa-cloud-arrow-up upload-icon"></i>
+                    <p class="upload-text">Click or drag &amp; drop to upload</p>
+                    <p class="upload-subtext">PNG, JPG, WEBP — max 5 MB</p>
+                    <input asp-for="Product.MainImage" type="file" id="mainImageInput"
+                           accept="image/*" class="file-input-hidden" />
+                </div>
+                <div id="mainImagePreview" class="image-preview-wrap" style="display: none;">
+                    <img id="mainImagePreviewImg" src="" alt="Preview" class="image-preview-img" />
+                    <button type="button" id="removeMainImage" class="btn-remove-image" title="Remove image">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+                <span asp-validation-for="Product.MainImage" class="field-error"></span>
+            </div>
+
+            @* Sub images card *@
+            <div class="card-glass form-card">
+                <h3 class="form-card-title"><i class="fas fa-images"></i> Additional Images</h3>
+                <div class="image-upload-zone" id="subImagesZone">
+                    <i class="fas fa-cloud-arrow-up upload-icon"></i>
+                    <p class="upload-text">Click or drag &amp; drop to upload</p>
+                    <p class="upload-subtext">Select multiple images — PNG, JPG, WEBP</p>
+                    <input asp-for="Product.SubImages" type="file" id="subImagesInput"
+                           accept="image/*" multiple class="file-input-hidden" />
+                </div>
+                <div id="subImagesPreviewGrid" class="sub-images-grid"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn-outline">
+            <i class="fas fa-arrow-left"></i> Cancel
+        </a>
+        <button type="submit" class="btn-primary-gradient">
+            <i class="fas fa-floppy-disk"></i> Create Product
+        </button>
+    </div>
+</form>
+
+<style>
+    .form-grid-two-col {
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        gap: 24px;
+        align-items: start;
+    }
+    .form-column { display: flex; flex-direction: column; gap: 24px; }
+    .form-card { padding: 28px; }
+    .form-card-title {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 22px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text-primary);
+    }
+    .form-card-title i { color: var(--accent); }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+    .form-label { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+    .form-label-sm { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
+    .required-star { color: #ef4444; }
+    .form-control {
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: var(--text-primary);
+        font-size: 0.9rem;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .form-control:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+    }
+    .form-select { cursor: pointer; }
+    .form-textarea { min-height: 110px; resize: vertical; }
+    .form-row-two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .field-error { font-size: 0.8rem; color: #ef4444; }
+
+    /* Upload zone */
+    .image-upload-zone {
+        border: 2px dashed var(--border-color);
+        border-radius: 12px;
+        padding: 32px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 0.2s, background 0.2s;
+        position: relative;
+    }
+    .image-upload-zone:hover { border-color: var(--accent); background: rgba(99,102,241,0.04); }
+    .upload-icon { font-size: 2rem; color: var(--accent); margin-bottom: 10px; }
+    .upload-text { font-weight: 600; margin: 0 0 4px; }
+    .upload-subtext { font-size: 0.8rem; color: var(--text-muted); margin: 0; }
+    .file-input-hidden {
+        position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;
+    }
+
+    /* Image previews */
+    .image-preview-wrap {
+        position: relative;
+        margin-top: 14px;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+    }
+    .image-preview-img { width: 100%; height: 200px; object-fit: cover; display: block; }
+    .btn-remove-image {
+        position: absolute; top: 8px; right: 8px;
+        background: rgba(0,0,0,0.55); color: #fff;
+        border: none; border-radius: 50%;
+        width: 30px; height: 30px; cursor: pointer;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.85rem; transition: background 0.2s;
+    }
+    .btn-remove-image:hover { background: #ef4444; }
+
+    .sub-images-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+    .sub-image-thumb {
+        position: relative; border-radius: 8px; overflow: hidden;
+        border: 1px solid var(--border-color); aspect-ratio: 1;
+    }
+    .sub-image-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .sub-image-thumb .btn-remove-image { width: 24px; height: 24px; font-size: 0.75rem; }
+
+    /* Variants */
+    .variant-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 80px 60px 36px;
+        gap: 10px;
+        align-items: end;
+        padding: 12px;
+        background: var(--bg-primary);
+        border-radius: 10px;
+        border: 1px solid var(--border-color);
+        margin-bottom: 10px;
+    }
+    .btn-remove-variant {
+        background: rgba(239,68,68,0.12); color: #ef4444;
+        border: 1px solid rgba(239,68,68,0.25);
+        border-radius: 8px; width: 36px; height: 36px;
+        cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background 0.2s;
+    }
+    .btn-remove-variant:hover { background: #ef4444; color: #fff; }
+    .form-checkbox { width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent); }
+    .btn-secondary-sm {
+        padding: 7px 14px; font-size: 0.82rem; font-weight: 600;
+        border-radius: 8px; border: 1px solid var(--accent);
+        background: rgba(99,102,241,0.1); color: var(--accent);
+        cursor: pointer; display: flex; align-items: center; gap: 6px;
+        transition: background 0.2s;
+    }
+    .btn-secondary-sm:hover { background: rgba(99,102,241,0.2); }
+
+    /* Form actions */
+    .form-actions {
+        display: flex; justify-content: flex-end; gap: 14px;
+        margin-top: 10px; padding-top: 10px;
+    }
+    .btn-outline {
+        padding: 11px 22px; font-size: 0.9rem; font-weight: 600;
+        border-radius: 10px; border: 1px solid var(--border-color);
+        background: transparent; color: var(--text-secondary);
+        text-decoration: none; display: flex; align-items: center; gap: 8px;
+        transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    @@media (max-width: 900px) {
+        .form-grid-two-col { grid-template-columns: 1fr; }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        // ── Main image preview ─────────────────────────────────────────────────────
+        const mainInput = document.getElementById('mainImageInput');
+        const mainZone = document.getElementById('mainImageZone');
+        const mainPreview = document.getElementById('mainImagePreview');
+        const mainPreviewImg = document.getElementById('mainImagePreviewImg');
+        const removeMainBtn = document.getElementById('removeMainImage');
+
+        mainInput.addEventListener('change', () => {
+            const file = mainInput.files[0];
+            if (file) {
+                mainPreviewImg.src = URL.createObjectURL(file);
+                mainZone.style.display = 'none';
+                mainPreview.style.display = 'block';
+            }
+        });
+
+        removeMainBtn.addEventListener('click', () => {
+            mainInput.value = '';
+            mainPreviewImg.src = '';
+            mainPreview.style.display = 'none';
+            mainZone.style.display = 'block';
+        });
+
+        // ── Sub images preview ─────────────────────────────────────────────────────
+        const subInput = document.getElementById('subImagesInput');
+        const subGrid = document.getElementById('subImagesPreviewGrid');
+        let subFiles = [];
+
+        subInput.addEventListener('change', () => {
+            Array.from(subInput.files).forEach(file => {
+                subFiles.push(file);
+                renderSubThumb(file);
+            });
+        });
+
+        function renderSubThumb(file) {
+            const wrap = document.createElement('div');
+            wrap.className = 'sub-image-thumb';
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn-remove-image';
+            btn.innerHTML = '<i class="fas fa-xmark"></i>';
+            btn.addEventListener('click', () => {
+                subFiles = subFiles.filter(f => f !== file);
+                wrap.remove();
+                syncSubInput();
+            });
+            wrap.appendChild(img);
+            wrap.appendChild(btn);
+            subGrid.appendChild(wrap);
+        }
+
+        function syncSubInput() {
+            const dt = new DataTransfer();
+            subFiles.forEach(f => dt.items.add(f));
+            subInput.files = dt.files;
+        }
+
+        // ── Variants ───────────────────────────────────────────────────────────────
+        let variantIndex = 0;
+        const addBtn = document.getElementById('addVariantBtn');
+        const container = document.getElementById('variantsContainer');
+        const noMsg = document.getElementById('noVariantsMsg');
+        const template = document.getElementById('variantRowTemplate');
+
+        addBtn.addEventListener('click', () => {
+            noMsg.style.display = 'none';
+            const html = template.innerHTML.replaceAll('__INDEX__', variantIndex++);
+            const tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            const row = tmp.firstElementChild;
+            row.querySelector('.btn-remove-variant').addEventListener('click', () => {
+                row.remove();
+                if (container.querySelectorAll('.variant-row').length === 0) {
+                    noMsg.style.display = 'block';
+                }
+            });
+            container.appendChild(row);
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
