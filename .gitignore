@@ -5,8 +5,10 @@
 **/bin/
 **/obj/
 
-wwwroot/images/categories/
-wwwroot/images/Products/
+
+TMAProject/wwwroot/images/categories/
+TMAProject/wwwroot/images/Products/
+
 
 # User-specific files
 *.user
