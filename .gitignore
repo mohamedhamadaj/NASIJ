@@ -5,6 +5,9 @@
 **/bin/
 **/obj/
 
+wwwroot/images/categories/
+wwwroot/images/Products/
+
 # User-specific files
 *.user
 *.suo
