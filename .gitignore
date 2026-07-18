@@ -1,0 +1,17 @@
+# Visual Studio
+.vs/
+
+# Build folders
+**/bin/
+**/obj/
+
+# User-specific files
+*.user
+*.suo
+
+# Rider / VS Code (اختياري)
+.vscode/
+.idea/
+
+# ASP.NET logs
+*.log

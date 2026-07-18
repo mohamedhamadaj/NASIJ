@@ -65,7 +65,7 @@
                 <div class="form-row-two">
                     <div class="form-group">
                         <label asp-for="CategoryId" class="form-label">Category <span class="required-star">*</span></label>
-                        <select asp-for="CategoryId" asp-items="categories" class="form-control form-select">
+                        <select asp-for="CategoryId" asp-items="Model.Categories" class="form-control form-select">
                             <option value="">— Select category —</option>
                         </select>
                         <span asp-validation-for="CategoryId" class="field-error"></span>

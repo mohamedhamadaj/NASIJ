@@ -7,7 +7,7 @@ using TMAProject.Repository.Interfaces;
 namespace TMAProject.Repository.Implementations
 {
     
-    public class ColorRepository : GenericRepository<size> , IColorRepository
+    public class ColorRepository : GenericRepository<Color> , IColorRepository
     {
 
         private readonly ApplicationDbContext _context;
@@ -16,7 +16,7 @@ namespace TMAProject.Repository.Implementations
         {
             _context = context;
         }
-        public  async Task<IEnumerable<size>> GetAllColorsAsync(CancellationToken cancellationToken)
+        public  async Task<IEnumerable<Color>> GetAllColorsAsync(CancellationToken cancellationToken)
         {
             return await _context.Colors
                 .AsNoTracking()

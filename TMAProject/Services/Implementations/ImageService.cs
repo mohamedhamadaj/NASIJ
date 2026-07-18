@@ -20,6 +20,7 @@ namespace TMAProject.Services.Implementations
             string folderName,
             CancellationToken cancellationToken = default)
         {
+
             var folderPath = Path.Combine(
                 _environment.WebRootPath,
                 "images",
@@ -31,6 +32,9 @@ namespace TMAProject.Services.Implementations
             {
                 Directory.CreateDirectory(folderPath);
             }
+
+            if (image is null || image.Length == 0)
+                throw new ArgumentException("No image file was provided.", nameof(image));
 
 
             var fileName = Guid.NewGuid().ToString()

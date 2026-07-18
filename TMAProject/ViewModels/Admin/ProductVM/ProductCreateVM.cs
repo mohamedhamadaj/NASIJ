@@ -12,6 +12,7 @@ namespace TMAProject.ViewModels.Admin.ProductVM
         public string? ProductDescription { get; set; }
         public decimal ProductPrice { get; set; }
         public Guid CategoryId { get; set; }
+        [Required(ErrorMessage = "Main image is required.")]
         public IFormFile? MainImage { get; set; }
         public List<IFormFile>? SubImages { get; set; } = [];
         public ProductStatus Status { get; set; }

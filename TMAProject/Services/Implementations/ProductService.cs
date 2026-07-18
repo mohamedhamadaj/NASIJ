@@ -30,8 +30,12 @@ namespace TMAProject.Services.Implementations
             }
 
             string? mainImageUrl = null;
+            if (model.MainImage is null)
+            {
+                return ServiceResult.Fail("Main image is required.");
+            }
 
-            if(model.MainImage is null)
+            if (model.MainImage is not null)
             {
                 mainImageUrl = await _imageService.UploadImageAsync(model.MainImage, "Products", cancellationToken);
             }
@@ -81,7 +85,7 @@ namespace TMAProject.Services.Implementations
 
         async Task<ServiceResult> IProductService.DeleteAsync(Guid ProductId, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetOneAsync(p=> p.Id == ProductId);
+            var product = await _productRepository.GetOneAsync(p=> p.Id == ProductId, includes: [indexer=> indexer.ProductSubImages,v=>v.ProductVariants]);
 
             if (product == null)
                 return ServiceResult.Fail("Product Not Exist");
@@ -97,9 +101,14 @@ namespace TMAProject.Services.Implementations
             {
                 foreach (var image in product.ProductSubImages)
                 {
-                    await _imageService.DeleteImageAsync(image.ImageUrl, "products", cancellationToken);
+                    await _imageService.DeleteImageAsync(image.ImageUrl, "Products", cancellationToken);
                 }
                 product.ProductSubImages.Clear();
+            }
+
+            if (product.ProductVariants.Any())
+            {
+                 _applicationDbContext.RemoveRange(product.ProductVariants);
             }
 
             _productRepository.Delete(product);

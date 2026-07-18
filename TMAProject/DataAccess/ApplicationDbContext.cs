@@ -14,7 +14,7 @@ namespace TMAProject.DataAccess
         public DbSet<Category> Categories { get; set;}
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductSubImage> ProductSubImages { get; set; }
-        public DbSet<size> Colors { get; set; }
+        public DbSet<Color> Colors { get; set; }
         public DbSet<ProductVariant> ProductVariants { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Size> Sizes { get; set; }

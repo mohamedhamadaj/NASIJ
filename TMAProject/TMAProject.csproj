@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="ViewModels\Customer\" />
+    <Folder Include="wwwroot\images\Products\" />
   </ItemGroup>
 
 </Project>
