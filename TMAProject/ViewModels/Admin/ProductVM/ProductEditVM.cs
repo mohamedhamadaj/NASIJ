@@ -8,6 +8,7 @@ public class ProductEditVM
     public Guid ProductId { get; set; }
 
     public string Name { get; set; } = string.Empty;
+    //public string? NewName { get; set; }
 
     public string? Description { get; set; }
 
@@ -27,7 +28,7 @@ public class ProductEditVM
 
     public ProductStatus Status { get; set; }
 
-    public List<ProductVariantVM> Variants { get; set; } = [];
+    public List<ProductColorVM>  ProductColors { get; set; } = [];
     public IEnumerable<SelectListItem> Categories { get; set; } = new List<SelectListItem>();
     public IEnumerable<SelectListItem> Colors { get; set; } = new List<SelectListItem>();
     public IEnumerable<SelectListItem> Sizes { get; set; } = new List<SelectListItem>();

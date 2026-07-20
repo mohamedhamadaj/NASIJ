@@ -1,4 +1,4 @@
-@model ProductEditVM
+ @model ProductEditVM
 @using TMAProject.ViewModels.Admin.ProductVM
 @using TMAProject.Models.Enums
 @{
@@ -89,7 +89,7 @@
                     </button>
                 </div>
 
-                <div id="variantsContainer">
+               @*  <div id="variantsContainer">
                     @if (Model.Variants != null && Model.Variants.Count > 0)
                     {
                         for (int vi = 0; vi < Model.Variants.Count; vi++)
@@ -161,7 +161,7 @@
                             No variants added yet. Click "Add Variant" to specify sizes, colors, and quantities.
                         </p>
                     }
-                </div>
+                </div> *@
 
                 <template id="variantRowTemplate">
                     <div class="variant-row">

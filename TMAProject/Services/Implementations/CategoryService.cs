@@ -76,7 +76,7 @@ namespace TMAProject.Services.Implementations
                     cancellationToken);
             }
 
-            _categoryRepository.Delete(category);
+             _categoryRepository.Delete(category);
 
             await _categoryRepository.CommitAsync(cancellationToken);
 
@@ -117,7 +117,7 @@ namespace TMAProject.Services.Implementations
                 {
                     return ServiceResult.Fail("Category not found.");
                 }
-                var isexisting = await _categoryRepository.IsNameExistAsync(model.Name, model.CategoryId);
+                var isexisting = await _categoryRepository.IsNameExistAsync(model.Name, model.CategoryId, cancellationToken);
                 if (isexisting)
                 {
                     return ServiceResult.Fail("Category name already exists.");
@@ -125,21 +125,22 @@ namespace TMAProject.Services.Implementations
 
                 category.Name = model.Name;
                 category.Description = model.Description;
-           if (model.Image is not null)
-{
-    if (!string.IsNullOrWhiteSpace(category.ImageUrl))
-    {
-        await _imageService.DeleteImageAsync(
-            category.ImageUrl,
-            "categories",
-            cancellationToken);
-    }
-
-    category.ImageUrl = await _imageService.UploadImageAsync(
-        model.Image,
-        "categories",
-        cancellationToken);
-}
+                if (model.Image is not null)
+                {
+                    if (!string.IsNullOrWhiteSpace(category.ImageUrl))
+                    {
+                        await _imageService.DeleteImageAsync(
+                            category.ImageUrl,
+                            "categories",
+                            cancellationToken);
+                    }
+                
+                    category.ImageUrl = await _imageService.UploadImageAsync(
+                        model.Image,
+                        "categories",
+                        cancellationToken);
+                }  
+                _categoryRepository.Update(category);
                 await _categoryRepository.CommitAsync(cancellationToken);
                 return ServiceResult.Ok("Category updated successfully.");
             

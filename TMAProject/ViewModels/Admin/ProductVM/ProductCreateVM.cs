@@ -16,7 +16,7 @@ namespace TMAProject.ViewModels.Admin.ProductVM
         public IFormFile? MainImage { get; set; }
         public List<IFormFile>? SubImages { get; set; } = [];
         public ProductStatus Status { get; set; }
-        public List<ProductVariantVM> Variants { get; set; }= new List<ProductVariantVM>();
+        public List<ProductColorVM>  productColors { get; set; }= new List<ProductColorVM>();
 
 
 

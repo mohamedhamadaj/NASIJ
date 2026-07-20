@@ -12,7 +12,7 @@ namespace TMAProject.Repository.Interfaces
 
         public Task<IEnumerable<CategoryListVm>> GetCategoriesWithProductCountAsync(CancellationToken cancellationToken = default);
 
-        public  Task<bool> IsNameExistAsync(string name, Guid? id);
+        public  Task<bool> IsNameExistAsync(string name, Guid? id, CancellationToken cancellationToken = default);
 
         public  Task<IEnumerable<Category>> GetActiveCategoriesAsync();
 

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TMAProject.DataAccess;
 using TMAProject.Models.Entities;
 using TMAProject.Repository.Interfaces;
+using TMAProject.ViewModels.Admin.ColorVM;
 
 namespace TMAProject.Repository.Implementations
 {
@@ -16,15 +17,18 @@ namespace TMAProject.Repository.Implementations
         {
             _context = context;
         }
-        public  async Task<IEnumerable<Color>> GetAllColorsAsync(CancellationToken cancellationToken)
+        public  async Task<IEnumerable<ColorListVM>> GetAllColorsAsync(CancellationToken cancellationToken)
         {
             return await _context.Colors
                 .AsNoTracking()
-                .OrderBy(c => c.Name)
-                .ToListAsync(cancellationToken);
+                .Select(c => new ColorListVM
+                {
+                    ColorId = c.Id,
+                    Name = c.Name,
+                }).ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> IsNameExistAsync(string name, Guid? colorId)
+        public async Task<bool> IsNameExistAsync(string name, Guid? colorId, CancellationToken cancellationToken = default)
         {
             return await _context.Colors
                 .AnyAsync(c =>

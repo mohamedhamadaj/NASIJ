@@ -19,9 +19,9 @@ namespace TMAProject.Models.Entities
         public ProductStatus Status { get; set; } = ProductStatus.Active;
 
         public ICollection<ProductSubImage> ProductSubImages { get; set; } = new List<ProductSubImage>();
-        public ICollection<ProductVariant> ProductVariants { get; set; } = new List<ProductVariant>();
         public ICollection<Review> ProductReviews { get; set; } = new List<Review>();
         public ICollection<WishListItem> WishListItems { get; set; } = new List<WishListItem>();
+        public ICollection<ProductColor> ProductColors { get; set; } = new List<ProductColor>();
     }
 
 }

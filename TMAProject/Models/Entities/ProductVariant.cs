@@ -3,10 +3,10 @@
     public class ProductVariant
     {
         public Guid Id { get; set; }
-        public Guid ProductId { get; set; }
-        public Product Product { get; set; } = null!;
-        public Guid ColorId { get; set; }
-        public Color Color { get; set; } = null!;
+        //public Guid ProductId { get; set; }
+        //public Product Product { get; set; } = null!;
+        public Guid ProductColorId { get; set; }
+        public ProductColor ProductColor { get; set; } = null!;
         public Guid SizeId { get; set; }
         public Size Size { get; set; } = null!;
         public int Quantity { get; set; }

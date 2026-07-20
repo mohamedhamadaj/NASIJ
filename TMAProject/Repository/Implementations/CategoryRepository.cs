@@ -37,7 +37,7 @@ namespace TMAProject.Repository.Implementations
             }).ToListAsync();
         }
 
-        public async Task<bool> IsNameExistAsync(string name, Guid? id = null)
+        public async Task<bool> IsNameExistAsync(string name, Guid? id = null, CancellationToken cancellationToken = default)
         {
             return await _context.Categories.AnyAsync(c => c.Name == name && (!id.HasValue || c.Id != id.Value));
         }

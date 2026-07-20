@@ -26,6 +26,8 @@ namespace TMAProject.DataAccess
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<CouponUsage> CouponUsages { get; set; }
+        public DbSet<ProductColor> ProductColors { get; set; }
+        public DbSet<ProductColorImage> ProductColorImages { get; set; }
 
 
 

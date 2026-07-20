@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using TMAProject.DataAccess;
 using TMAProject.Models.Entities;
 using TMAProject.Repository.Interfaces;
+using TMAProject.ViewModels.Admin.SizeVM;
 
 namespace TMAProject.Repository.Implementations
 {
@@ -16,15 +17,18 @@ namespace TMAProject.Repository.Implementations
         {
             _context = context;
         }
-        public async Task<IEnumerable<Size>> GetAllSizesAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<SizeListVM>> GetAllSizesAsync(CancellationToken cancellationToken)
         {
             return await _context.Sizes
                 .AsNoTracking()
-                .OrderBy(c => c.Name)
-                .ToListAsync(cancellationToken);
+                .Select(s=> new SizeListVM
+                {
+                    SizeId = s.Id,
+                    SizeName = s.Name,
+                }).ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> IsNameExistAsync(string name, Guid? sizeId)
+        public async Task<bool> IsNameExistAsync(string name, Guid? sizeId, CancellationToken cancellationToken = default)
         {
             return await _context.Sizes
                 .AnyAsync(c =>

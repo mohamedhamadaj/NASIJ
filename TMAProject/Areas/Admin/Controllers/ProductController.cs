@@ -9,7 +9,7 @@ using TMAProject.ViewModels.Admin.ProductVM;
 
 namespace TMAProject.Areas.Admin.Controllers
 {
-    [Area ( "Admin")]
+    [Area("Admin")]
     //[Authorize(Roles = Role.Admin)]
     public class ProductController : Controller
     {
@@ -58,9 +58,9 @@ namespace TMAProject.Areas.Admin.Controllers
 
             var result = await _productService.CreateAsync(model.Product, cancellationToken);
 
-            if(!result.Success)
+            if (!result.Success)
             {
-                ModelState.AddModelError("",result.Message);
+                ModelState.AddModelError("", result.Message);
                 model.Categories = await _categoryRepository.GetCategoriesForDropdownAsync(cancellationToken);
                 model.Colors = await _colorRepository.GetColorsForDropdownAsync(cancellationToken);
                 model.Sizes = await _sizeRepository.GetSizesForDropdownAsync(cancellationToken);
@@ -75,7 +75,7 @@ namespace TMAProject.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(Guid id, CancellationToken cancellationToken)
         {
             var model = await _productService.GetOneAsync(id, cancellationToken);
-            if(model == null)
+            if (model == null)
             {
                 return NotFound();
             }

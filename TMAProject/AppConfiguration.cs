@@ -43,8 +43,11 @@ namespace TMAProject
 
             // Services
             services.AddScoped<IProductService, ProductService>();
-
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IColorService, ColorService>();
+            services.AddScoped<ISizeService, SizeService>();
             services.AddScoped<IDBInitilizer, DBInitilizer>();
+
 
 
         }
