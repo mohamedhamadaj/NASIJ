@@ -1,0 +1,85 @@
+@using Microsoft.AspNetCore.Identity
+@using TMAProject.Models.Entities
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "User Profile";
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 70vh; padding: 20px; background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);">
+    <div style="width: 100%; max-width: 600px; background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); border-radius: 24px; border: 1px solid rgba(209, 213, 219, 0.3); padding: 40px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.03); box-sizing: border-box;">
+        
+        <div style="text-align: center; margin-bottom: 32px; position: relative;">
+            <div style="width: 96px; height: 96px; margin: 0 auto 16px auto; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: 700; box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);">
+                @if (user != null)
+                {
+                    @(user.FirstName.Length > 0 ? user.FirstName.Substring(0, 1).ToUpper() : "")@(user.LastName.Length > 0 ? user.LastName.Substring(0, 1).ToUpper() : "")
+                }
+                else
+                {
+                    <i class="fas fa-user"></i>
+                }
+            </div>
+            <h2 style="font-weight: 800; font-size: 1.6rem; margin: 0 0 4px 0; color: #1e1b4b;">
+                @if (user != null)
+                {
+                    @($"{user.FirstName} {user.LastName}")
+                }
+                else
+                {
+                    <span>Guest User</span>
+                }
+            </h2>
+            <p style="color: #6b7280; font-size: 0.9rem; margin: 0; font-family: monospace; letter-spacing: 0.5px;">@@@(user?.UserName ?? "guest")</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 20px; border-top: 1px solid rgba(229, 231, 235, 0.8); padding-top: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px dashed rgba(229, 231, 235, 0.6);">
+                <span style="color: #6b7280; font-size: 0.9rem; font-weight: 600;">Email Address</span>
+                <span style="color: #1f2937; font-weight: 500;">@(user?.Email ?? "N/A")</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px dashed rgba(229, 231, 235, 0.6);">
+                <span style="color: #6b7280; font-size: 0.9rem; font-weight: 600;">First Name</span>
+                <span style="color: #1f2937; font-weight: 500;">@(user?.FirstName ?? "N/A")</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px dashed rgba(229, 231, 235, 0.6);">
+                <span style="color: #6b7280; font-size: 0.9rem; font-weight: 600;">Last Name</span>
+                <span style="color: #1f2937; font-weight: 500;">@(user?.LastName ?? "N/A")</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px dashed rgba(229, 231, 235, 0.6);">
+                <span style="color: #6b7280; font-size: 0.9rem; font-weight: 600;">Account Status</span>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <span style="display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.1); color: #059669; padding: 4px 12px; border-radius: 9999px; font-size: 0.8rem; font-weight: 700;">
+                        <span style="width: 6px; height: 6px; background: #10b981; border-radius: 50%;"></span> Active Session
+                    </span>
+                }
+                else
+                {
+                    <span style="display: inline-flex; align-items: center; gap: 6px; background: rgba(239, 68, 68, 0.1); color: #dc2626; padding: 4px 12px; border-radius: 9999px; font-size: 0.8rem; font-weight: 700;">
+                        <span style="width: 6px; height: 6px; background: #ef4444; border-radius: 50%;"></span> Signed Out
+                    </span>
+                }
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 32px;">
+            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" style="flex: 1; text-align: center; padding: 12px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; border-radius: 12px; font-weight: 700; text-decoration: none; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.25);">
+                Go to Dashboard
+            </a>
+            
+            <form asp-area="Identity" asp-controller="Account" asp-action="Logout" method="post" style="flex: 1;">
+                @Html.AntiForgeryToken()
+                <button type="submit" style="width: 100%; padding: 12px; background: white; color: #dc2626; border: 1px solid rgba(220, 38, 38, 0.3); border-radius: 12px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: all 0.2s;">
+                    Sign Out
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,72 @@
+@model TMAProject.ViewModels.Admin.ColorVM.ColorEditVM
+@{
+    ViewData["Title"] = "Edit Color";
+    ViewData["ActivePage"] = "Colors";
+}
+
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Edit Color</h1>
+        <ul class="breadcrumbs">
+            <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            <li><a asp-area="Admin" asp-controller="Color" asp-action="Index">Colors</a></li>
+            <li class="active">Edit</li>
+        </ul>
+    </div>
+    <div>
+        <a asp-area="Admin" asp-controller="Color" asp-action="Index" class="btn-primary-gradient" style="background: var(--border-color); color: var(--text-primary); box-shadow: none; text-decoration: none;">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>
+
+<div class="card-glass" style="max-width: 600px; margin: 0 auto 32px auto;">
+    <h3 style="margin-bottom: 24px;">Color Details</h3>
+    
+    <form asp-area="Admin" asp-controller="Color" asp-action="Edit" method="post" style="display: flex; flex-direction: column; gap: 20px;">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="ColorId" />
+        
+        <div asp-validation-summary="ModelOnly" style="color: var(--danger); font-size: 0.9rem; font-weight: 500; list-style-type: none; padding: 0;"></div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label asp-for="Name" style="font-weight: 500; font-size: 0.9rem; color: var(--text-secondary);">Color Name (e.g. Red, Black, #00FF00) *</label>
+            <input asp-for="Name" class="select-custom" style="width: 100%; border-radius: 8px; padding: 10px; cursor: text;" placeholder="Enter color name or hex code" id="colorInput" oninput="updateColorPreview(this.value)" />
+            <span asp-validation-for="Name" style="color: var(--danger); font-size: 0.8rem; font-weight: 500;"></span>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px; align-items: center; margin-top: 10px;">
+            <span style="font-weight: 500; font-size: 0.9rem; color: var(--text-secondary);">Color Preview</span>
+            <div id="colorPreview" style="width: 64px; height: 64px; border-radius: 50%; border: 3px solid var(--border-color); background-color: transparent; margin-top: 8px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); transition: background-color 0.3s ease;"></div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 12px; border-top: 1px solid var(--border-color); padding-top: 24px;">
+            <button type="submit" class="btn-primary-gradient" style="flex-grow: 1; justify-content: center; padding: 12px;">
+                <i class="fas fa-circle-check"></i> Save Changes
+            </button>
+            <a asp-area="Admin" asp-controller="Color" asp-action="Index" class="btn-primary-gradient" style="background: var(--border-color); color: var(--text-primary); box-shadow: none; text-decoration: none; padding: 12px; display: flex; align-items: center; justify-content: center;">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function updateColorPreview(val) {
+            const preview = document.getElementById('colorPreview');
+            if (val) {
+                preview.style.backgroundColor = val;
+            } else {
+                preview.style.backgroundColor = 'transparent';
+            }
+        }
+        
+        // Initial call
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('colorInput');
+            if(input) updateColorPreview(input.value);
+        });
+    </script>
+}

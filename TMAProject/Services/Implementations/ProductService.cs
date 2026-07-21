@@ -11,13 +11,11 @@ namespace TMAProject.Services.Implementations
     {
         private readonly IProductRepository _productRepository;
         private readonly IImageService _imageService;
-        private readonly ApplicationDbContext _applicationDbContext;
 
-        public ProductService(IProductRepository productRepository, IImageService imageService, ApplicationDbContext applicationDbContext)
+        public ProductService(IProductRepository productRepository, IImageService imageService)
         {
             _productRepository = productRepository;
             _imageService = imageService;
-            _applicationDbContext = applicationDbContext;
         }
 
         async Task<ServiceResult> IProductService.CreateAsync(ProductCreateVM model, CancellationToken cancellationToken)
@@ -114,7 +112,7 @@ namespace TMAProject.Services.Implementations
 
         async Task<ServiceResult> IProductService.DeleteAsync(Guid ProductId, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetOneAsync(p => p.Id == ProductId, includes: [indexer => indexer.ProductSubImages, v => v.ProductColors.Select(pc=>pc.Images)]);
+            var product = await _productRepository.GetOneAsync(p => p.Id == ProductId, includes: [indexer => indexer.ProductSubImages, v => v.ProductColors],cancellationToken: cancellationToken);
 
             if (product == null)
                 return ServiceResult.Fail("Product Not Exist");
@@ -209,8 +207,8 @@ namespace TMAProject.Services.Implementations
 
         async Task<ServiceResult> IProductService.UpdateAsync(ProductEditVM model, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetProductForEditAsync(model.ProductId, cancellationToken);
-            if (product is null)
+            var productInDb = await _productRepository.GetProductForEditAsync(model.ProductId, cancellationToken);
+            if (productInDb is null)
             {
                 return ServiceResult.Fail("Product Not Exist");
             }
@@ -222,22 +220,22 @@ namespace TMAProject.Services.Implementations
                 return ServiceResult.Fail("product name already exist");
             }
 
-            product.Name = model.Name;
-            product.CategoryId = model.CategoryId;
-            product.Description = model.Description;
-            product.Price = model.Price;
-            product.Status = model.Status;
-            product.UpdatedAt = DateTime.UtcNow;
-            product.DiscountPercentage = model.DiscountPercentage;
+            productInDb.Name = model.Name;
+            productInDb.CategoryId = model.CategoryId;
+            productInDb.Description = model.Description;
+            productInDb.Price = model.Price;
+            productInDb.Status = model.Status;
+            productInDb.UpdatedAt = DateTime.UtcNow;
+            productInDb.DiscountPercentage = model.DiscountPercentage;
 
             if (model.MainImage != null)
             {
-                if (!string.IsNullOrEmpty(product.MainImageUrl))
+                if (!string.IsNullOrEmpty(productInDb.MainImageUrl))
                 {
-                    await _imageService.DeleteImageAsync(product.MainImageUrl, "Products", cancellationToken);
+                    await _imageService.DeleteImageAsync(productInDb.MainImageUrl, "Products", cancellationToken);
                 }
 
-                product.MainImageUrl = await _imageService.UploadImageAsync(model.MainImage, "Products", cancellationToken);
+                productInDb.MainImageUrl = await _imageService.UploadImageAsync(model.MainImage, "Products", cancellationToken);
 
             }
             // delete old sub image
@@ -269,10 +267,10 @@ namespace TMAProject.Services.Implementations
 
 
 
-            if (product.ProductColors.Any())
+            if (productInDb.ProductColors.Any())
             {
 
-                foreach(var color in product.ProductColors)
+                foreach(var color in productInDb.ProductColors)
                 {
                     foreach(var image in color.Images)
                     {
@@ -281,7 +279,7 @@ namespace TMAProject.Services.Implementations
                 }
 
 
-                _applicationDbContext.RemoveRange(product.ProductColors);
+                //_applicationDbContext.RemoveRange(productInDb.ProductColors);
             }
 
             foreach (var color in model.ProductColors)
@@ -289,7 +287,7 @@ namespace TMAProject.Services.Implementations
                 var productColor = new ProductColor
                 {
                     Id = Guid.NewGuid(),
-                    ProductId = product.Id,
+                    ProductId = productInDb.Id,
                     ColorId = color.ColorId
                 };
 
@@ -322,10 +320,9 @@ namespace TMAProject.Services.Implementations
                     });
                 }
 
-                product.ProductColors.Add(productColor);
+                productInDb.ProductColors.Add(productColor);
             }
 
-            _productRepository.Update(product);
             await _productRepository.CommitAsync(cancellationToken);
             return ServiceResult.Ok("Product Updated Successfully");
         }

@@ -4,6 +4,7 @@ namespace TMAProject.ViewModels.Admin.ProductVM
 {
     public class ProductColorVM
     {
+        public Guid? ProductColorId { get; set; }
         public Guid ColorId { get; set; }
         
         public List<ProductColorImageVM> ExistingImages { get; set; } = new List<ProductColorImageVM>();

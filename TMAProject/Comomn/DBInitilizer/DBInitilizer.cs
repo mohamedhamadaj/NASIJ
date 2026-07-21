@@ -46,6 +46,7 @@ namespace TMAProject.Comomn.DBInitilizer
                         EmailConfirmed = true,
                         FirstName = "Tma",
                         LastName = "Admin",
+                        IsActive = true,
                     };
 
                     var result = _userManager

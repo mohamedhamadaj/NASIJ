@@ -9,6 +9,7 @@ namespace TMAProject.Models.Entities
         public string? Address { get; set; }
         public WishList WishList { get; set; } = null!;
         public Cart Cart { get; set; } = null!;
+        public bool IsActive { get; set; } = true;
 
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public ICollection<Order> Orders { get; set; } = new List<Order>();

@@ -1,0 +1,93 @@
+@model IEnumerable<TMAProject.ViewModels.Admin.SizeVM.SizeListVM>
+@{
+    ViewData["Title"] = "Sizes Management";
+    ViewData["ActivePage"] = "Sizes";
+}
+
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Sizes</h1>
+        <ul class="breadcrumbs">
+            <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            <li class="active">Sizes</li>
+        </ul>
+    </div>
+    <div>
+        <a asp-area="Admin" asp-controller="Size" asp-action="Create" class="btn-primary-gradient" style="text-decoration: none;">
+            <i class="fas fa-plus"></i> Add Size
+        </a>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="card-glass" style="margin-bottom: 24px; padding: 16px; border-color: var(--success); background-color: var(--success-light); color: var(--success); display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-weight: 500;"><i class="fas fa-circle-check" style="margin-right: 8px;"></i> @TempData["Success"]</span>
+        <button onclick="this.parentElement.remove()" style="background: none; border: none; color: inherit; cursor: pointer;"><i class="fas fa-xmark"></i></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="card-glass" style="margin-bottom: 24px; padding: 16px; border-color: var(--danger); background-color: rgba(239, 68, 68, 0.1); color: var(--danger); display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-weight: 500;"><i class="fas fa-triangle-exclamation" style="margin-right: 8px;"></i> @TempData["Error"]</span>
+        <button onclick="this.parentElement.remove()" style="background: none; border: none; color: inherit; cursor: pointer;"><i class="fas fa-xmark"></i></button>
+    </div>
+}
+
+<div class="card-glass" style="margin-bottom: 32px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h3>Size List</h3>
+        <span style="font-size: 0.9rem; color: var(--text-secondary);">Total Sizes: @Model.Count()</span>
+    </div>
+    
+    <div class="table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Size Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="2" style="text-align: center; padding: 32px; color: var(--text-secondary);">
+                            <i class="fas fa-ruler" style="font-size: 2rem; margin-bottom: 12px; display: block; color: var(--text-muted);"></i>
+                            No sizes found. Click "Add Size" to create one.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px;">@item.SizeName</td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <a asp-area="Admin" asp-controller="Size" asp-action="Edit" asp-route-id="@item.SizeId" class="btn-action" title="Edit Size" style="text-decoration: none;">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                    <form asp-area="Admin"
+                                          asp-controller="Size"
+                                          asp-action="Delete"
+                                          asp-route-id="@item.SizeId"
+                                          method="post"
+                                          onsubmit="return confirm('Are you sure you want to delete the size \'@item.SizeName\'?');"
+                                          style="display: inline;">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn-action btn-delete" title="Delete Size">
+                                            <i class="fas fa-trash-can"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

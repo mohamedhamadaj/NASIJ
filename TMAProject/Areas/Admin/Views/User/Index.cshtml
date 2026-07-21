@@ -1,0 +1,73 @@
+@model IEnumerable<TMAProject.ViewModels.Admin.UserVM.UserListVM>
+@{
+    ViewData["Title"] = "Users Management";
+    ViewData["ActivePage"] = "Users";
+}
+
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Users</h1>
+        <ul class="breadcrumbs">
+            <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            <li class="active">Users</li>
+        </ul>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="card-glass" style="margin-bottom: 24px; padding: 16px; border-color: var(--success); background-color: var(--success-light); color: var(--success); display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-weight: 500;"><i class="fas fa-circle-check" style="margin-right: 8px;"></i> @TempData["Success"]</span>
+        <button onclick="this.parentElement.remove()" style="background: none; border: none; color: inherit; cursor: pointer;"><i class="fas fa-xmark"></i></button>
+    </div>
+}
+
+<div class="card-glass" style="margin-bottom: 32px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h3>Registered Users</h3>
+        <span style="font-size: 0.9rem; color: var(--text-secondary);">Total Users: @Model.Count()</span>
+    </div>
+    
+    <div class="table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 32px; color: var(--text-secondary);">
+                            <i class="fas fa-users-slash" style="font-size: 2rem; margin-bottom: 12px; display: block; color: var(--text-muted);"></i>
+                            No users found.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="font-weight: 600;">@item.UserName</td>
+                            <td>@item.FullName</td>
+                            <td>@item.Email</td>
+                            <td>
+                                @foreach (var role in item.Role)
+                                {
+                                    <span class="badge-status badge-success" style="margin-right: 4px; background: rgba(99, 102, 241, 0.15); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3);">
+                                        @role
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

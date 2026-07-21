@@ -1,0 +1,100 @@
+@model IEnumerable<TMAProject.ViewModels.Admin.ColorVM.ColorListVM>
+@{
+    ViewData["Title"] = "Colors Management";
+    ViewData["ActivePage"] = "Colors";
+}
+
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Colors</h1>
+        <ul class="breadcrumbs">
+            <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            <li class="active">Colors</li>
+        </ul>
+    </div>
+    <div>
+        <a asp-area="Admin" asp-controller="Color" asp-action="Create" class="btn-primary-gradient" style="text-decoration: none;">
+            <i class="fas fa-plus"></i> Add Color
+        </a>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="card-glass" style="margin-bottom: 24px; padding: 16px; border-color: var(--success); background-color: var(--success-light); color: var(--success); display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-weight: 500;"><i class="fas fa-circle-check" style="margin-right: 8px;"></i> @TempData["Success"]</span>
+        <button onclick="this.parentElement.remove()" style="background: none; border: none; color: inherit; cursor: pointer;"><i class="fas fa-xmark"></i></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="card-glass" style="margin-bottom: 24px; padding: 16px; border-color: var(--danger); background-color: rgba(239, 68, 68, 0.1); color: var(--danger); display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-weight: 500;"><i class="fas fa-triangle-exclamation" style="margin-right: 8px;"></i> @TempData["Error"]</span>
+        <button onclick="this.parentElement.remove()" style="background: none; border: none; color: inherit; cursor: pointer;"><i class="fas fa-xmark"></i></button>
+    </div>
+}
+
+<div class="card-glass" style="margin-bottom: 32px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h3>Color List</h3>
+        <span style="font-size: 0.9rem; color: var(--text-secondary);">Total Colors: @Model.Count()</span>
+    </div>
+    
+    <div class="table-container">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Color Preview</th>
+                    <th>Color Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="3" style="text-align: center; padding: 32px; color: var(--text-secondary);">
+                            <i class="fas fa-palette" style="font-size: 2rem; margin-bottom: 12px; display: block; color: var(--text-muted);"></i>
+                            No colors found. Click "Add Color" to create one.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--border-color); background-color: @item.Name.ToLower(); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);"></div>
+                                    <span style="font-size: 0.85rem; color: var(--text-muted); font-family: monospace;">@item.Name</span>
+                                </div>
+                            </td>
+                            <td style="font-weight: 600;">@item.Name</td>
+                            <td>
+                                <div style="display: flex; gap: 8px;">
+                                    <a asp-area="Admin" asp-controller="Color" asp-action="Edit" asp-route-id="@item.ColorId" class="btn-action" title="Edit Color" style="text-decoration: none;">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                    <form asp-area="Admin"
+                                          asp-controller="Color"
+                                          asp-action="Delete"
+                                          asp-route-id="@item.ColorId"
+                                          method="post"
+                                          onsubmit="return confirm('Are you sure you want to delete the color \'@item.Name\'?');"
+                                          style="display: inline;">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn-action btn-delete" title="Delete Color">
+                                            <i class="fas fa-trash-can"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

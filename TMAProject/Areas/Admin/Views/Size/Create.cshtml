@@ -1,0 +1,50 @@
+@model TMAProject.ViewModels.Admin.SizeVM.SizeCreateVM
+@{
+    ViewData["Title"] = "Create Size";
+    ViewData["ActivePage"] = "Sizes";
+}
+
+<div class="content-header">
+    <div>
+        <h1 class="page-title">Add Size</h1>
+        <ul class="breadcrumbs">
+            <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a></li>
+            <li><a asp-area="Admin" asp-controller="Size" asp-action="Index">Sizes</a></li>
+            <li class="active">Add</li>
+        </ul>
+    </div>
+    <div>
+        <a asp-area="Admin" asp-controller="Size" asp-action="Index" class="btn-primary-gradient" style="background: var(--border-color); color: var(--text-primary); box-shadow: none; text-decoration: none;">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>
+
+<div class="card-glass" style="max-width: 600px; margin: 0 auto 32px auto;">
+    <h3 style="margin-bottom: 24px;">Size Details</h3>
+    
+    <form asp-area="Admin" asp-controller="Size" asp-action="Create" method="post" style="display: flex; flex-direction: column; gap: 20px;">
+        @Html.AntiForgeryToken()
+        
+        <div asp-validation-summary="ModelOnly" style="color: var(--danger); font-size: 0.9rem; font-weight: 500; list-style-type: none; padding: 0;"></div>
+
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+            <label asp-for="SizeName" style="font-weight: 500; font-size: 0.9rem; color: var(--text-secondary);">Size Name (e.g. S, M, L, XL, 32, 34) *</label>
+            <input asp-for="SizeName" class="select-custom" style="width: 100%; border-radius: 8px; padding: 10px; cursor: text;" placeholder="Enter size label" />
+            <span asp-validation-for="SizeName" style="color: var(--danger); font-size: 0.8rem; font-weight: 500;"></span>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 12px; border-top: 1px solid var(--border-color); padding-top: 24px;">
+            <button type="submit" class="btn-primary-gradient" style="flex-grow: 1; justify-content: center; padding: 12px;">
+                <i class="fas fa-circle-check"></i> Create Size
+            </button>
+            <a asp-area="Admin" asp-controller="Size" asp-action="Index" class="btn-primary-gradient" style="background: var(--border-color); color: var(--text-primary); box-shadow: none; text-decoration: none; padding: 12px; display: flex; align-items: center; justify-content: center;">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

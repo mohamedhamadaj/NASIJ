@@ -1,0 +1,87 @@
+@model TMAProject.ViewModels.AccountVM.RegisterVM
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 80vh; padding: 20px; background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);">
+    <div style="width: 100%; max-width: 550px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); border-radius: 24px; border: 1px solid rgba(209, 213, 219, 0.3); padding: 40px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.03); box-sizing: border-box;">
+        
+        <div style="text-align: center; margin-bottom: 32px;">
+            <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 16px; margin-bottom: 16px; color: white; font-size: 1.8rem; box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h2 style="font-weight: 800; font-size: 1.8rem; margin: 0 0 8px 0; background: linear-gradient(135deg, #1e1b4b, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Create Account</h2>
+            <p style="color: #6b7280; font-size: 0.95rem; margin: 0;">Get started with our luxury store management</p>
+        </div>
+
+        <form asp-area="Identity" asp-controller="Account" asp-action="Register" method="post" style="display: flex; flex-direction: column; gap: 20px;">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" style="background: rgba(239, 68, 68, 0.08); border-left: 4px solid #ef4444; border-radius: 8px; padding: 14px; margin-bottom: 8px; color: #b91c1c; font-size: 0.9rem; font-weight: 500; list-style-type: none;"></div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label asp-for="FirstName" style="font-weight: 600; font-size: 0.85rem; color: #4b5563;">First Name</label>
+                    <input asp-for="FirstName" style="border: 1px solid #d1d5db; border-radius: 12px; padding: 12px; font-size: 0.95rem; outline: none; background: white; transition: all 0.2s;" placeholder="John" />
+                    <span asp-validation-for="FirstName" style="color: #dc2626; font-size: 0.8rem; font-weight: 500;"></span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label asp-for="LastName" style="font-weight: 600; font-size: 0.85rem; color: #4b5563;">Last Name</label>
+                    <input asp-for="LastName" style="border: 1px solid #d1d5db; border-radius: 12px; padding: 12px; font-size: 0.95rem; outline: none; background: white; transition: all 0.2s;" placeholder="Doe" />
+                    <span asp-validation-for="LastName" style="color: #dc2626; font-size: 0.8rem; font-weight: 500;"></span>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label asp-for="UserName" style="font-weight: 600; font-size: 0.85rem; color: #4b5563;">Username</label>
+                <input asp-for="UserName" style="border: 1px solid #d1d5db; border-radius: 12px; padding: 12px; font-size: 0.95rem; outline: none; background: white; transition: all 0.2s;" placeholder="johndoe" />
+                <span asp-validation-for="UserName" style="color: #dc2626; font-size: 0.8rem; font-weight: 500;"></span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label asp-for="Email" style="font-weight: 600; font-size: 0.85rem; color: #4b5563;">Email Address</label>
+                <input asp-for="Email" type="email" style="border: 1px solid #d1d5db; border-radius: 12px; padding: 12px; font-size: 0.95rem; outline: none; background: white; transition: all 0.2s;" placeholder="john@example.com" />
+                <span asp-validation-for="Email" style="color: #dc2626; font-size: 0.8rem; font-weight: 500;"></span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label asp-for="Passwod" style="font-weight: 600; font-size: 0.85rem; color: #4b5563;">Password</label>
+                <input asp-for="Passwod" type="password" style="border: 1px solid #d1d5db; border-radius: 12px; padding: 12px; font-size: 0.95rem; outline: none; background: white; transition: all 0.2s;" placeholder="••••••••" />
+                <span asp-validation-for="Passwod" style="color: #dc2626; font-size: 0.8rem; font-weight: 500;"></span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label asp-for="ConfirmPassword" style="font-weight: 600; font-size: 0.85rem; color: #4b5563;">Confirm Password</label>
+                <input asp-for="ConfirmPassword" type="password" style="border: 1px solid #d1d5db; border-radius: 12px; padding: 12px; font-size: 0.95rem; outline: none; background: white; transition: all 0.2s;" placeholder="••••••••" />
+                <span asp-validation-for="ConfirmPassword" style="color: #dc2626; font-size: 0.8rem; font-weight: 500;"></span>
+            </div>
+
+            <button type="submit" style="margin-top: 10px; padding: 14px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.25);">
+                Sign Up
+            </button>
+
+            <div style="text-align: center; margin-top: 16px; font-size: 0.9rem; color: #6b7280;">
+                Already have an account? 
+                <a asp-area="Identity" asp-controller="Account" asp-action="Login" style="color: #6366f1; font-weight: 600; text-decoration: none;">Sign In</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <style>
+        input:focus {
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15) !important;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -3px rgba(99, 102, 241, 0.35) !important;
+        }
+        button:active {
+            transform: translateY(0);
+        }
+    </style>
+}

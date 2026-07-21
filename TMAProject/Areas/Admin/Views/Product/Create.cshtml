@@ -30,14 +30,14 @@
 
                 <div class="form-group">
                     <label asp-for="Product.ProductName" class="form-label">Product Name <span class="required-star">*</span></label>
-                    <input asp-for="Product.ProductName" class="form-control" placeholder="e.g. Classic White Tee" />
+                    <input asp-for="Product.ProductName" class="form-control" placeholder="e.g. Classic Denim Jacket" />
                     <span asp-validation-for="Product.ProductName" class="field-error"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Product.ProductDescription" class="form-label">Description</label>
                     <textarea asp-for="Product.ProductDescription" class="form-control form-textarea"
-                              placeholder="Describe the product…"></textarea>
+                              placeholder="Describe the product details, material, care instructions…"></textarea>
                     <span asp-validation-for="Product.ProductDescription" class="field-error"></span>
                 </div>
 
@@ -66,60 +66,21 @@
                 </div>
             </div>
 
-            @* Variants card *@
+            @* Color & Size Configurator (Variants) *@
             <div class="card-glass form-card">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-                    <h3 class="form-card-title" style="margin-bottom: 0;"><i class="fas fa-swatchbook"></i> Variants</h3>
-                    <button type="button" id="addVariantBtn" class="btn-secondary-sm">
-                        <i class="fas fa-plus"></i> Add Variant
+                    <h3 class="form-card-title" style="margin-bottom: 0;"><i class="fas fa-palette"></i> Colors &amp; Sizes Configuration</h3>
+                    <button type="button" id="addColorBtn" class="btn-secondary-sm">
+                        <i class="fas fa-plus"></i> Add Color Group
                     </button>
                 </div>
 
-                <div id="variantsContainer">
-                    @* Variant rows injected by JS *@
-                    <p id="noVariantsMsg" style="color: var(--text-muted); font-size: 0.9rem; text-align: center; padding: 16px 0;">
-                        No variants added yet. Click "Add Variant" to specify sizes, colors, and quantities.
+                <div id="colorsContainer" style="display: flex; flex-direction: column; gap: 20px;">
+                    @* Color sections will be added dynamically by JS *@
+                    <p id="noColorsMsg" style="color: var(--text-muted); font-size: 0.9rem; text-align: center; padding: 24px 0;">
+                        No colors configured yet. Click "Add Color Group" to define colors, specific color images, and sizes.
                     </p>
                 </div>
-
-                @* Variant row template (hidden) *@
-                <template id="variantRowTemplate">
-                    <div class="variant-row">
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label-sm">Color</label>
-                            <select name="Product.Variants[__INDEX__].ColorId" class="form-control form-select">
-                                <option value="">— Color —</option>
-                                @foreach (var c in Model.Colors)
-                                {
-                                    <option value="@c.Value">@c.Text</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label-sm">Size</label>
-                            <select name="Product.Variants[__INDEX__].SizeId" class="form-control form-select">
-                                <option value="">— Size —</option>
-                                @foreach (var s in Model.Sizes)
-                                {
-                                    <option value="@s.Value">@s.Text</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label class="form-label-sm">Qty</label>
-                            <input type="number" name="Product.Variants[__INDEX__].Quantity"
-                                   class="form-control" min="0" placeholder="0" />
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0; display: flex; flex-direction: column; align-items: center; gap: 6px;">
-                            <label class="form-label-sm">Active</label>
-                            <input type="checkbox" name="Product.Variants[__INDEX__].IsActive"
-                                   value="true" checked class="form-checkbox" />
-                        </div>
-                        <button type="button" class="btn-remove-variant" title="Remove">
-                            <i class="fas fa-xmark"></i>
-                        </button>
-                    </div>
-                </template>
             </div>
         </div>
 
@@ -128,7 +89,7 @@
 
             @* Main image card *@
             <div class="card-glass form-card">
-                <h3 class="form-card-title"><i class="fas fa-image"></i> Main Image</h3>
+                <h3 class="form-card-title"><i class="fas fa-image"></i> Product Main Image</h3>
                 <div class="image-upload-zone" id="mainImageZone">
                     <i class="fas fa-cloud-arrow-up upload-icon"></i>
                     <p class="upload-text">Click or drag &amp; drop to upload</p>
@@ -145,9 +106,9 @@
                 <span asp-validation-for="Product.MainImage" class="field-error"></span>
             </div>
 
-            @* Sub images card *@
+            @* General Sub images card *@
             <div class="card-glass form-card">
-                <h3 class="form-card-title"><i class="fas fa-images"></i> Additional Images</h3>
+                <h3 class="form-card-title"><i class="fas fa-images"></i> Additional General Images</h3>
                 <div class="image-upload-zone" id="subImagesZone">
                     <i class="fas fa-cloud-arrow-up upload-icon"></i>
                     <p class="upload-text">Click or drag &amp; drop to upload</p>
@@ -156,6 +117,7 @@
                            accept="image/*" multiple class="file-input-hidden" />
                 </div>
                 <div id="subImagesPreviewGrid" class="sub-images-grid"></div>
+                <span asp-validation-for="Product.SubImages" class="field-error"></span>
             </div>
 
         </div>
@@ -170,6 +132,70 @@
         </button>
     </div>
 </form>
+
+@* Templates for JS Variant Management *@
+<template id="colorGroupTemplate">
+    <div class="color-group card-glass" style="border: 1px solid var(--border-color); background: rgba(255, 255, 255, 0.02); padding: 20px; border-radius: 12px; position: relative;">
+        <button type="button" class="btn-remove-color" style="position: absolute; top: 12px; right: 12px; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;" title="Remove Color Group">
+            <i class="fas fa-trash-can" style="font-size: 0.8rem;"></i>
+        </button>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; margin-right: 28px;">
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Color <span class="required-star">*</span></label>
+                <select class="form-control form-select color-id-input" required>
+                    <option value="">— Choose Color —</option>
+                    @foreach (var c in Model.Colors)
+                    {
+                        <option value="@c.Value">@c.Text</option>
+                    }
+                </select>
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Color-Specific Images</label>
+                <input type="file" class="form-control color-images-input" accept="image/*" multiple style="padding: 6px 12px;" />
+            </div>
+        </div>
+
+        <div style="border-top: 1px dashed var(--border-color); padding-top: 16px; margin-top: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                <h4 style="font-size: 0.9rem; font-weight: 700; margin: 0; color: var(--text-secondary);"><i class="fas fa-ruler"></i> Available Sizes &amp; Stock</h4>
+                <button type="button" class="btn-secondary-sm add-size-btn" style="padding: 4px 10px; font-size: 0.75rem;">
+                    <i class="fas fa-plus"></i> Add Size
+                </button>
+            </div>
+
+            <div class="sizes-container" style="display: flex; flex-direction: column; gap: 8px;">
+                @* Sizes rows injected here *@
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="sizeRowTemplate">
+    <div class="variant-row" style="display: grid; grid-template-columns: 1fr 80px 60px auto; gap: 10px; align-items: center; background: rgba(0,0,0,0.1); padding: 8px 12px; border-radius: 8px;">
+        <div class="form-group" style="margin-bottom: 0; gap: 4px;">
+            <select class="form-control form-select variant-size-select" required style="padding: 6px 10px; font-size: 0.85rem;">
+                <option value="">— Size —</option>
+                @foreach (var s in Model.Sizes)
+                {
+                    <option value="@s.Value">@s.Text</option>
+                }
+            </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 0; gap: 4px;">
+            <input type="number" class="form-control variant-qty-input" min="0" placeholder="Qty" required style="padding: 6px 10px; font-size: 0.85rem;" />
+        </div>
+        <div class="form-group" style="margin-bottom: 0; display: flex; flex-direction: column; align-items: center; gap: 2px;">
+            <label class="form-label-sm" style="font-size: 0.7rem; margin: 0;">Active</label>
+            <input type="checkbox" class="form-checkbox variant-active-checkbox" checked value="true" />
+        </div>
+        <button type="button" class="btn-remove-variant" style="padding: 6px; width: 28px; height: 28px; border-radius: 6px; font-size: 0.8rem; line-height: 1;" title="Remove Size">
+            <i class="fas fa-xmark"></i>
+        </button>
+    </div>
+</template>
 
 <style>
     .form-grid-two-col {
@@ -262,15 +288,7 @@
 
     /* Variants */
     .variant-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr 80px 60px 36px;
-        gap: 10px;
-        align-items: end;
-        padding: 12px;
-        background: var(--bg-primary);
-        border-radius: 10px;
-        border: 1px solid var(--border-color);
-        margin-bottom: 10px;
+        margin-bottom: 6px;
     }
     .btn-remove-variant {
         background: rgba(239,68,68,0.12); color: #ef4444;
@@ -293,7 +311,8 @@
     /* Form actions */
     .form-actions {
         display: flex; justify-content: flex-end; gap: 14px;
-        margin-top: 10px; padding-top: 10px;
+        margin-top: 24px; padding-top: 24px;
+        border-top: 1px solid var(--border-color);
     }
     .btn-outline {
         padding: 11px 22px; font-size: 0.9rem; font-weight: 600;
@@ -371,26 +390,86 @@
             subInput.files = dt.files;
         }
 
-        // ── Variants ───────────────────────────────────────────────────────────────
-        let variantIndex = 0;
-        const addBtn = document.getElementById('addVariantBtn');
-        const container = document.getElementById('variantsContainer');
-        const noMsg = document.getElementById('noVariantsMsg');
-        const template = document.getElementById('variantRowTemplate');
+        // ── Nested Color & Size Manager ────────────────────────────────────────────
+        const colorsContainer = document.getElementById('colorsContainer');
+        const addColorBtn = document.getElementById('addColorBtn');
+        const noColorsMsg = document.getElementById('noColorsMsg');
+        const colorGroupTemplate = document.getElementById('colorGroupTemplate');
+        const sizeRowTemplate = document.getElementById('sizeRowTemplate');
 
-        addBtn.addEventListener('click', () => {
-            noMsg.style.display = 'none';
-            const html = template.innerHTML.replaceAll('__INDEX__', variantIndex++);
-            const tmp = document.createElement('div');
-            tmp.innerHTML = html;
-            const row = tmp.firstElementChild;
-            row.querySelector('.btn-remove-variant').addEventListener('click', () => {
-                row.remove();
-                if (container.querySelectorAll('.variant-row').length === 0) {
-                    noMsg.style.display = 'block';
+        let colorIndex = 0;
+
+        addColorBtn.addEventListener('click', () => {
+            noColorsMsg.style.display = 'none';
+            
+            // Create color group element
+            const groupWrap = document.createElement('div');
+            groupWrap.innerHTML = colorGroupTemplate.innerHTML.trim();
+            const groupNode = groupWrap.firstChild;
+
+            // Setup references
+            const sizesContainer = groupNode.querySelector('.sizes-container');
+            const addSizeBtn = groupNode.querySelector('.add-size-btn');
+            const removeColorBtn = groupNode.querySelector('.btn-remove-color');
+            
+            let sizeIndex = 0;
+
+            // Add Size Row Event handler
+            addSizeBtn.addEventListener('click', () => {
+                const sizeWrap = document.createElement('div');
+                sizeWrap.innerHTML = sizeRowTemplate.innerHTML.trim();
+                const sizeNode = sizeWrap.firstChild;
+
+                // Handle size remove button click
+                sizeNode.querySelector('.btn-remove-variant').addEventListener('click', () => {
+                    sizeNode.remove();
+                });
+
+                sizesContainer.appendChild(sizeNode);
+            });
+
+            // Trigger one size automatically
+            addSizeBtn.click();
+
+            // Handle color group remove button click
+            removeColorBtn.addEventListener('click', () => {
+                groupNode.remove();
+                if (colorsContainer.querySelectorAll('.color-group').length === 0) {
+                    noColorsMsg.style.display = 'block';
                 }
             });
-            container.appendChild(row);
+
+            colorsContainer.appendChild(groupNode);
+        });
+
+        // Re-index all color groups and nested variants before submit so they bind consecutively starting from 0
+        document.getElementById('createProductForm').addEventListener('submit', (e) => {
+            const colorGroups = colorsContainer.querySelectorAll('.color-group');
+            if (colorGroups.length === 0) {
+                alert('Please add at least one color group with sizes.');
+                e.preventDefault();
+                return;
+            }
+
+            colorGroups.forEach((group, cIdx) => {
+                // Set ColorId name
+                const colorSelect = group.querySelector('.color-id-input');
+                colorSelect.name = `Product.productColors[${cIdx}].ColorId`;
+                
+                // Set NewImages name
+                const fileInput = group.querySelector('.color-images-input');
+                fileInput.name = `Product.productColors[${cIdx}].NewImages`;
+
+                // Set Size, Qty and Active name attributes
+                const sizeRows = group.querySelectorAll('.variant-row');
+                sizeRows.forEach((row, sIdx) => {
+                    row.querySelector('.variant-size-select').name = `Product.productColors[${cIdx}].Variants[${sIdx}].SizeId`;
+                    row.querySelector('.variant-qty-input').name = `Product.productColors[${cIdx}].Variants[${sIdx}].Quantity`;
+                    
+                    const activeCheck = row.querySelector('.variant-active-checkbox');
+                    activeCheck.name = `Product.productColors[${cIdx}].Variants[${sIdx}].IsActive`;
+                });
+            });
         });
     </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

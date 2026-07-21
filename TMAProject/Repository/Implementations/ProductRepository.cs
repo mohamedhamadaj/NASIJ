@@ -53,6 +53,8 @@ namespace TMAProject.Repository.Implementations
                  .Include(p => p.ProductSubImages)
                  .Include(p => p.ProductColors)
                  .ThenInclude(p => p.Color)
+                 .Include(p=>p.ProductColors)
+                 .ThenInclude(i=>i.Images)
                  .Include(p => p.ProductColors)
                  .ThenInclude(p => p.Variants)
                  .ThenInclude(p=>p.Size)
