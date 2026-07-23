@@ -24,6 +24,7 @@ public class ProductEditVM
     [ValidateNever]
     public IFormFile? MainImage { get; set; }
 
+    [ValidateNever]
     public List<ProductSubImageVM> ExistingSubImages { get; set; } = [];
 
     [ValidateNever]
@@ -31,6 +32,7 @@ public class ProductEditVM
 
     public ProductStatus Status { get; set; }
 
+    [ValidateNever]
     public List<ProductColorVM>  ProductColors { get; set; } = [];
     [ValidateNever]
     public IEnumerable<SelectListItem> Categories { get; set; } = new List<SelectListItem>();

@@ -209,13 +209,14 @@ namespace TMAProject.Services.Implementations
 
         public async Task<ServiceResult> UpdateAsync(ProductEditVM model, CancellationToken cancellationToken)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
             try
             {
                 Console.WriteLine($"===> [UpdateAsync] Started for ProductId '{model.ProductId}', Name '{model.Name}'");
                 Console.WriteLine($"===> [UpdateAsync] ProductColors submitted: {model.ProductColors?.Count ?? 0}");
 
                 // ── 1. Validation ──────────────────────────────────────────────────────────
-                var product = await _productRepository.GetProductForEditAsync(model.ProductId, cancellationToken);
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == model.ProductId, cancellationToken);
 
                 if (product is null)
                 {
@@ -235,111 +236,58 @@ namespace TMAProject.Services.Implementations
                     return ServiceResult.Fail("Product Name Already Exists");
                 }
 
-                // ── 2. Collect entities and color images to delete ──────────────────────
-                var filesToDelete = new List<(string url, string folder)>();
+                // ── 2. Identify existing color groups and handle file deletions ────────────
+                var existingColorIds = await _context.ProductColors
+                    .Where(c => c.ProductId == model.ProductId)
+                    .Select(c => c.Id)
+                    .ToListAsync(cancellationToken);
 
-                var existingColors = product.ProductColors.ToList();
-                Console.WriteLine($"===> [UpdateAsync] Existing colors count in DB: {existingColors.Count}");
-
-                var submittedProductColorIds = model.ProductColors != null
-                    ? model.ProductColors
-                        .Where(c => c.ProductColorId.HasValue && c.ProductColorId.Value != Guid.Empty)
-                        .Select(c => c.ProductColorId!.Value).ToHashSet()
-                    : new HashSet<Guid>();
-                var submittedColorIds = model.ProductColors != null
-                    ? model.ProductColors.Select(c => c.ColorId).ToHashSet()
-                    : new HashSet<Guid>();
-
-                var colorGroupsToDelete = new List<Guid>();
-                var imageIdsToDelete = new List<Guid>();
-                var variantIdsToDelete = new List<Guid>();
-
-                foreach (var dbColor in existingColors)
+                if (existingColorIds.Any())
                 {
-                    bool isKept = submittedProductColorIds.Contains(dbColor.Id) || submittedColorIds.Contains(dbColor.ColorId);
+                    // Collect all existing image URLs in DB for disk cleanup
+                    var dbColorImages = await _context.ProductColorImages
+                        .Where(i => existingColorIds.Contains(i.ProductColorId))
+                        .Select(i => i.ImageUrl)
+                        .ToListAsync(cancellationToken);
 
-                    if (!isKept)
+                    // Collect all image URLs kept in form
+                    var keptImageUrls = model.ProductColors != null
+                        ? model.ProductColors
+                            .Where(c => c.ExistingImages != null)
+                            .SelectMany(c => c.ExistingImages)
+                            .Select(img => img.ImageUrl)
+                            .ToHashSet(StringComparer.OrdinalIgnoreCase)
+                        : new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+                    // Delete files from disk for removed images
+                    foreach (var imgUrl in dbColorImages)
                     {
-                        Console.WriteLine($"===> [UpdateAsync] Color group '{dbColor.Id}' marked for deletion");
-                        if (dbColor.Images != null)
+                        if (!string.IsNullOrEmpty(imgUrl) && !keptImageUrls.Contains(imgUrl))
                         {
-                            foreach (var img in dbColor.Images)
-                                filesToDelete.Add((img.ImageUrl, "Products/Colors"));
-                        }
-                        colorGroupsToDelete.Add(dbColor.Id);
-                    }
-                    else
-                    {
-                        var matchingVm = model.ProductColors?.FirstOrDefault(c =>
-                            (c.ProductColorId.HasValue && c.ProductColorId.Value != Guid.Empty && c.ProductColorId.Value == dbColor.Id)
-                            || c.ColorId == dbColor.ColorId);
-
-                        if (matchingVm != null)
-                        {
-                            var keptImageIds = matchingVm.ExistingImages != null
-                                ? matchingVm.ExistingImages.Select(img => img.ImageUrlId).ToHashSet()
-                                : new HashSet<Guid>();
-
-                            if (dbColor.Images != null)
-                            {
-                                foreach (var img in dbColor.Images.Where(i => !keptImageIds.Contains(i.Id)))
-                                {
-                                    filesToDelete.Add((img.ImageUrl, "Products/Colors"));
-                                    imageIdsToDelete.Add(img.Id);
-                                }
-                            }
-
-                            var keptVariantIds = matchingVm.Variants != null
-                                ? matchingVm.Variants
-                                    .Where(v => v.VariantId.HasValue && v.VariantId.Value != Guid.Empty)
-                                    .Select(v => v.VariantId!.Value).ToHashSet()
-                                : new HashSet<Guid>();
-                            var keptSizeIds = matchingVm.Variants != null
-                                ? matchingVm.Variants.Select(v => v.SizeId).ToHashSet()
-                                : new HashSet<Guid>();
-
-                            if (dbColor.Variants != null)
-                            {
-                                foreach (var v in dbColor.Variants.Where(v => !keptVariantIds.Contains(v.Id) && !keptSizeIds.Contains(v.SizeId)))
-                                    variantIdsToDelete.Add(v.Id);
-                            }
+                            await _imageService.DeleteImageAsync(imgUrl, "Products/Colors", cancellationToken);
                         }
                     }
-                }
 
-                Console.WriteLine($"===> [UpdateAsync Deletions] Variants: {variantIdsToDelete.Count}, Images: {imageIdsToDelete.Count}, Colors: {colorGroupsToDelete.Count}, Files: {filesToDelete.Count}");
-
-                // ── 3. Execute Deletions ────────────────────────────────────────────────
-                foreach (var (url, folder) in filesToDelete)
-                    await _imageService.DeleteImageAsync(url, folder, cancellationToken);
-
-                if (variantIdsToDelete.Any())
-                {
+                    // Execute SQL deletions directly
                     await _context.ProductVariants
-                        .Where(v => variantIdsToDelete.Contains(v.Id))
+                        .Where(v => existingColorIds.Contains(v.ProductColorId))
                         .ExecuteDeleteAsync(cancellationToken);
-                }
 
-                if (imageIdsToDelete.Any())
-                {
                     await _context.ProductColorImages
-                        .Where(i => imageIdsToDelete.Contains(i.Id))
+                        .Where(i => existingColorIds.Contains(i.ProductColorId))
                         .ExecuteDeleteAsync(cancellationToken);
-                }
 
-                if (colorGroupsToDelete.Any())
-                {
                     await _context.ProductColors
-                        .Where(c => colorGroupsToDelete.Contains(c.Id))
+                        .Where(c => c.ProductId == model.ProductId)
                         .ExecuteDeleteAsync(cancellationToken);
                 }
 
-                // Clear Tracker after raw EF delete execution
+                // ── 3. Clear ChangeTracker ────────────────────────────────────────────────
                 _context.ChangeTracker.Clear();
                 Console.WriteLine($"===> [UpdateAsync] ChangeTracker cleared successfully");
 
-                // ── 4. Re-fetch clean Product entity ────────────────────────────────────
-                product = (await _productRepository.GetProductForEditAsync(model.ProductId, cancellationToken))!;
+                // ── 4. Re-fetch clean Product entity ──────────────────────────────────────
+                product = (await _context.Products.FirstOrDefaultAsync(p => p.Id == model.ProductId, cancellationToken))!;
 
                 product.Name = model.Name;
                 product.Description = model.Description;
@@ -354,8 +302,7 @@ namespace TMAProject.Services.Implementations
                 {
                     Console.WriteLine($"===> [UpdateAsync] Uploading new main image '{model.MainImage.FileName}'");
                     var oldMainImageUrl = product.MainImageUrl;
-                    product.MainImageUrl =
-                        await _imageService.UploadImageAsync(model.MainImage, "Products", cancellationToken);
+                    product.MainImageUrl = await _imageService.UploadImageAsync(model.MainImage, "Products", cancellationToken);
 
                     if (!string.IsNullOrEmpty(oldMainImageUrl))
                     {
@@ -363,118 +310,83 @@ namespace TMAProject.Services.Implementations
                     }
                 }
 
-                existingColors = product.ProductColors.ToList();
-
-                if (model.ProductColors != null)
+                // ── 5. Re-create color groups, color images, and variants ─────────────────
+                if (model.ProductColors != null && model.ProductColors.Any())
                 {
                     foreach (var colorVm in model.ProductColors)
                     {
-                        var dbColor = existingColors.FirstOrDefault(c =>
-                            (colorVm.ProductColorId.HasValue && colorVm.ProductColorId.Value != Guid.Empty && c.Id == colorVm.ProductColorId.Value)
-                            || c.ColorId == colorVm.ColorId);
-
-                        if (dbColor == null)
+                        var newColor = new ProductColor
                         {
-                            Console.WriteLine($"===> [UpdateAsync] Adding NEW color group for ColorId '{colorVm.ColorId}'");
-                            var newColor = new ProductColor
-                            {
-                                Id = Guid.NewGuid(),
-                                ProductId = product.Id,
-                                ColorId = colorVm.ColorId,
-                                Images = new List<ProductColorImage>(),
-                                Variants = new List<ProductVariant>()
-                            };
+                            Id = Guid.NewGuid(),
+                            ProductId = product.Id,
+                            ColorId = colorVm.ColorId,
+                            Images = new List<ProductColorImage>(),
+                            Variants = new List<ProductVariant>()
+                        };
 
-                            if (colorVm.NewImages != null)
+                        // Re-add kept existing color images
+                        if (colorVm.ExistingImages != null)
+                        {
+                            foreach (var existingImg in colorVm.ExistingImages)
                             {
-                                foreach (var image in colorVm.NewImages.Where(i => i != null && i.Length > 0))
+                                if (!string.IsNullOrEmpty(existingImg.ImageUrl))
                                 {
-                                    var url = await _imageService.UploadImageAsync(image, "Products/Colors", cancellationToken);
-                                    Console.WriteLine($"===> [UpdateAsync] Uploaded new color image: '{url}'");
-                                    newColor.Images.Add(new ProductColorImage { Id = Guid.NewGuid(), ProductColorId = newColor.Id, ImageUrl = url });
-                                }
-                            }
-
-                            if (colorVm.Variants != null)
-                            {
-                                foreach (var variant in colorVm.Variants)
-                                {
-                                    newColor.Variants.Add(new ProductVariant
+                                    newColor.Images.Add(new ProductColorImage
                                     {
                                         Id = Guid.NewGuid(),
-                                        SizeId = variant.SizeId,
-                                        Quantity = variant.Quantity,
-                                        IsActive = variant.IsActive
+                                        ProductColorId = newColor.Id,
+                                        ImageUrl = existingImg.ImageUrl
                                     });
                                 }
                             }
-
-                            product.ProductColors.Add(newColor);
                         }
-                        else
+
+                        // Add newly uploaded color images
+                        if (colorVm.NewImages != null)
                         {
-                            Console.WriteLine($"===> [UpdateAsync] Updating EXISTING color group ProductColorId '{dbColor.Id}'");
-                            dbColor.ColorId = colorVm.ColorId;
-
-                            if (colorVm.NewImages != null)
+                            foreach (var image in colorVm.NewImages.Where(i => i != null && i.Length > 0))
                             {
-                                foreach (var image in colorVm.NewImages.Where(i => i != null && i.Length > 0))
+                                var url = await _imageService.UploadImageAsync(image, "Products/Colors", cancellationToken);
+                                Console.WriteLine($"===> [UpdateAsync] Uploaded new color image: '{url}'");
+                                newColor.Images.Add(new ProductColorImage
                                 {
-                                    var url = await _imageService.UploadImageAsync(image, "Products/Colors", cancellationToken);
-                                    Console.WriteLine($"===> [UpdateAsync] Uploaded additional color image for existing color: '{url}'");
-                                    dbColor.Images.Add(new ProductColorImage
-                                    {
-                                        Id = Guid.NewGuid(),
-                                        ProductColorId = dbColor.Id,
-                                        ImageUrl = url
-                                    });
-                                }
-                            }
-
-                            var existingVariants = dbColor.Variants != null ? dbColor.Variants.ToList() : new List<ProductVariant>();
-
-                            if (colorVm.Variants != null)
-                            {
-                                foreach (var variantVm in colorVm.Variants)
-                                {
-                                    ProductVariant? dbVariant = null;
-
-                                    if (variantVm.VariantId.HasValue && variantVm.VariantId.Value != Guid.Empty)
-                                        dbVariant = existingVariants.FirstOrDefault(v => v.Id == variantVm.VariantId.Value);
-
-                                    if (dbVariant == null)
-                                        dbVariant = existingVariants.FirstOrDefault(v => v.SizeId == variantVm.SizeId);
-
-                                    if (dbVariant != null)
-                                    {
-                                        dbVariant.SizeId = variantVm.SizeId;
-                                        dbVariant.Quantity = variantVm.Quantity;
-                                        dbVariant.IsActive = variantVm.IsActive;
-                                    }
-                                    else
-                                    {
-                                        dbColor.Variants.Add(new ProductVariant
-                                        {
-                                            Id = Guid.NewGuid(),
-                                            ProductColorId = dbColor.Id,
-                                            SizeId = variantVm.SizeId,
-                                            Quantity = variantVm.Quantity,
-                                            IsActive = variantVm.IsActive
-                                        });
-                                    }
-                                }
+                                    Id = Guid.NewGuid(),
+                                    ProductColorId = newColor.Id,
+                                    ImageUrl = url
+                                });
                             }
                         }
+
+                        // Add variants
+                        if (colorVm.Variants != null)
+                        {
+                            foreach (var variantVm in colorVm.Variants)
+                            {
+                                newColor.Variants.Add(new ProductVariant
+                                {
+                                    Id = Guid.NewGuid(),
+                                    ProductColorId = newColor.Id,
+                                    SizeId = variantVm.SizeId,
+                                    Quantity = variantVm.Quantity,
+                                    IsActive = variantVm.IsActive
+                                });
+                            }
+                        }
+
+                        _context.ProductColors.Add(newColor);
                     }
                 }
 
                 Console.WriteLine($"===> [UpdateAsync] Committing updates to DB...");
-                await _productRepository.CommitAsync(cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+                await transaction.CommitAsync(cancellationToken);
+
                 Console.WriteLine($"===> [UpdateAsync SUCCESS] Product '{model.ProductId}' updated successfully!");
                 return ServiceResult.Ok("Product Updated Successfully");
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(cancellationToken);
                 Console.WriteLine($"===> [UpdateAsync EXCEPTION] {ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}");
                 return ServiceResult.Fail($"Error updating product: {ex.Message}");
             }

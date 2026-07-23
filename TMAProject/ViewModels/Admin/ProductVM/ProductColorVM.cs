@@ -8,6 +8,7 @@ namespace TMAProject.ViewModels.Admin.ProductVM
         public Guid? ProductColorId { get; set; }
         public Guid ColorId { get; set; }
         
+        [ValidateNever]
         public List<ProductColorImageVM> ExistingImages { get; set; } = new List<ProductColorImageVM>();
         [ValidateNever]
         public List<IFormFile> NewImages { get; set; } = new List<IFormFile>();
