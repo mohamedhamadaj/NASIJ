@@ -1,4 +1,5 @@
-﻿using TMAProject.Models.Entities;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using TMAProject.Models.Entities;
 
 namespace TMAProject.ViewModels.Admin.ProductVM
 {
@@ -7,7 +8,9 @@ namespace TMAProject.ViewModels.Admin.ProductVM
         public Guid? ProductColorId { get; set; }
         public Guid ColorId { get; set; }
         
+        [ValidateNever]
         public List<ProductColorImageVM> ExistingImages { get; set; } = new List<ProductColorImageVM>();
+        [ValidateNever]
         public List<IFormFile> NewImages { get; set; } = new List<IFormFile>();
         public List<ProductVariantVM> Variants { get; set; } = new List<ProductVariantVM>();
 
