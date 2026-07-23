@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TMAProject.DataAccess;
 using TMAProject.Models.Entities;
 using TMAProject.Models.Enums;
@@ -49,21 +49,39 @@ namespace TMAProject.Repository.Implementations
         async Task<Product?> IProductRepository.GetProductForEditAsync(Guid ProductId, CancellationToken cancellationToken)
         {
             return await _context.Products
-                 .Include(p => p.Category)
-                 .Include(p => p.ProductSubImages)
-                 .Include(p => p.ProductColors)
-                 .ThenInclude(p => p.Color)
-                 .Include(p=>p.ProductColors)
-                 .ThenInclude(i=>i.Images)
-                 .Include(p => p.ProductColors)
-                 .ThenInclude(p => p.Variants)
-                 .ThenInclude(p=>p.Size)
-                 .FirstOrDefaultAsync(p => p.Id == ProductId, cancellationToken);
+    .Include(p => p.Category)
+    .Include(p => p.ProductSubImages)
+    .Include(p => p.ProductColors)
+        .ThenInclude(p => p.Color)
+    .Include(p => p.ProductColors)
+        .ThenInclude(p => p.Images)
+    .Include(p => p.ProductColors)
+        .ThenInclude(p => p.Variants)
+        .ThenInclude(p => p.Size)
+    .AsSplitQuery()
+    .FirstOrDefaultAsync(p => p.Id == ProductId, cancellationToken);
         }
+
+
 
         async Task<bool> IProductRepository.IsNameExistAsync(string name, Guid? ProductId, Guid categoryId, CancellationToken cancellationToken)
         {
             return await _context.Products.AnyAsync(p => p.Name == name && p.CategoryId == categoryId && (!ProductId.HasValue || p.Id != ProductId.Value), cancellationToken);
+        }
+
+        public void RemoveProductColor(ProductColor productColor)
+        {
+            _context.ProductColors.Remove(productColor);
+        }
+
+        public void RemoveProductColorImage(ProductColorImage image)
+        {
+            _context.ProductColorImages.Remove(image);
+        }
+
+        public void RemoveVariants(IEnumerable<ProductVariant> variants)
+        {
+            _context.ProductVariants.RemoveRange(variants);
         }
     }
 }

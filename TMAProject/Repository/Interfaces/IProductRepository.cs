@@ -1,4 +1,4 @@
-﻿using TMAProject.Models.Entities;
+using TMAProject.Models.Entities;
 using TMAProject.ViewModels.Admin.ProductVM;
 
 namespace TMAProject.Repository.Interfaces
@@ -12,5 +12,9 @@ namespace TMAProject.Repository.Interfaces
         public Task<bool> IsNameExistAsync (string Name, Guid? ProductId,Guid categoryId, CancellationToken cancellationToken);
 
         public Task<IEnumerable<Product>> GetActiveProductsAsync(CancellationToken cancellationToken = default);
+        public void RemoveProductColor(ProductColor productColor);
+        public void RemoveProductColorImage(ProductColorImage image);
+        public void RemoveVariants(IEnumerable<ProductVariant> variants);
+
     }
 }

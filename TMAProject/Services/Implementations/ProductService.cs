@@ -1,4 +1,6 @@
-﻿using TMAProject.Common;
+using Microsoft.EntityFrameworkCore;
+using System.Drawing;
+using TMAProject.Common;
 using TMAProject.DataAccess;
 using TMAProject.Models.Entities;
 using TMAProject.Repository.Interfaces;
@@ -11,11 +13,13 @@ namespace TMAProject.Services.Implementations
     {
         private readonly IProductRepository _productRepository;
         private readonly IImageService _imageService;
+        //private readonly ApplicationDbContext _applicationDbContext;
 
-        public ProductService(IProductRepository productRepository, IImageService imageService)
+        public ProductService(IProductRepository productRepository, IImageService imageService/*, ApplicationDbContext applicationDbContext*/)
         {
             _productRepository = productRepository;
             _imageService = imageService;
+            //_applicationDbContext = applicationDbContext;
         }
 
         async Task<ServiceResult> IProductService.CreateAsync(ProductCreateVM model, CancellationToken cancellationToken)
@@ -112,40 +116,41 @@ namespace TMAProject.Services.Implementations
 
         async Task<ServiceResult> IProductService.DeleteAsync(Guid ProductId, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetOneAsync(p => p.Id == ProductId, includes: [indexer => indexer.ProductSubImages, v => v.ProductColors],cancellationToken: cancellationToken);
+            var product = await _productRepository.GetProductForEditAsync(ProductId, cancellationToken);
 
             if (product == null)
                 return ServiceResult.Fail("Product Not Exist");
-
 
             if (!string.IsNullOrEmpty(product.MainImageUrl))
             {
                 await _imageService.DeleteImageAsync(product.MainImageUrl, "Products", cancellationToken);
             }
 
-
-            if (product.ProductSubImages.Any())
+            if (product.ProductSubImages != null && product.ProductSubImages.Any())
             {
                 foreach (var image in product.ProductSubImages)
                 {
                     await _imageService.DeleteImageAsync(image.ImageUrl, "Products", cancellationToken);
                 }
-                product.ProductSubImages.Clear();
             }
 
-            foreach (var color in product.ProductColors)
+            if (product.ProductColors != null && product.ProductColors.Any())
             {
-                foreach(var image in color.Images)
+                foreach (var color in product.ProductColors)
                 {
-                    await _imageService.DeleteImageAsync(image.ImageUrl, "Products/Colors", cancellationToken);
+                    if (color.Images != null)
+                    {
+                        foreach (var image in color.Images)
+                        {
+                            await _imageService.DeleteImageAsync(image.ImageUrl, "Products/Colors", cancellationToken);
+                        }
+                    }
                 }
-
             }
 
             _productRepository.Delete(product);
             await _productRepository.CommitAsync(cancellationToken);
-            return ServiceResult.Ok("Product Deleted Succssefully");
-
+            return ServiceResult.Ok("Product Deleted Successfully");
         }
 
         async Task<IEnumerable<ProductListVM>> IProductService.GetAllProductsAsync(CancellationToken cancellationToken)
@@ -171,17 +176,10 @@ namespace TMAProject.Services.Implementations
                 ExistingMainImageUrl = product.MainImageUrl,
                 Status = product.Status,
 
-                //ExistingSubImages = product.ProductSubImages
-                //.Select(img => new ProductSubImageVM
-                //{
-                //    ImageId = img.Id,
-                //    ImageUrl = img.ImageUrl
-                //})
-                //.ToList(),
-
                 ProductColors = product.ProductColors
                 .Select(pc => new ProductColorVM
                 {
+                    ProductColorId = pc.Id,
                     ColorId = pc.ColorId,
 
                     ExistingImages = pc.Images
@@ -202,125 +200,213 @@ namespace TMAProject.Services.Implementations
                 })
                 .ToList()
             };
-
         }
 
-        async Task<ServiceResult> IProductService.UpdateAsync(ProductEditVM model, CancellationToken cancellationToken)
+        public async Task<ServiceResult> UpdateAsync(ProductEditVM model, CancellationToken cancellationToken)
         {
-            var productInDb = await _productRepository.GetProductForEditAsync(model.ProductId, cancellationToken);
-            if (productInDb is null)
-            {
-                return ServiceResult.Fail("Product Not Exist");
-            }
+            var product = await _productRepository.GetProductForEditAsync(model.ProductId, cancellationToken);
 
-            var isExist = await _productRepository.IsNameExistAsync(model.Name,model.ProductId, model.CategoryId, cancellationToken);
+            if (product is null)
+                return ServiceResult.Fail("Product Not Exist");
+
+            var isExist = await _productRepository.IsNameExistAsync(
+                model.Name,
+                model.ProductId,
+                model.CategoryId,
+                cancellationToken);
 
             if (isExist)
-            {
-                return ServiceResult.Fail("product name already exist");
-            }
+                return ServiceResult.Fail("Product Name Already Exists");
 
-            productInDb.Name = model.Name;
-            productInDb.CategoryId = model.CategoryId;
-            productInDb.Description = model.Description;
-            productInDb.Price = model.Price;
-            productInDb.Status = model.Status;
-            productInDb.UpdatedAt = DateTime.UtcNow;
-            productInDb.DiscountPercentage = model.DiscountPercentage;
+            product.Name = model.Name;
+            product.Description = model.Description;
+            product.Price = model.Price;
+            product.CategoryId = model.CategoryId;
+            product.Status = model.Status;
+            product.DiscountPercentage = model.DiscountPercentage;
+            product.UpdatedAt = DateTime.UtcNow;
 
             if (model.MainImage != null)
             {
-                if (!string.IsNullOrEmpty(productInDb.MainImageUrl))
-                {
-                    await _imageService.DeleteImageAsync(productInDb.MainImageUrl, "Products", cancellationToken);
-                }
+                if (!string.IsNullOrEmpty(product.MainImageUrl))
+                    await _imageService.DeleteImageAsync(
+                        product.MainImageUrl,
+                        "Products",
+                        cancellationToken);
 
-                productInDb.MainImageUrl = await _imageService.UploadImageAsync(model.MainImage, "Products", cancellationToken);
-
+                product.MainImageUrl =
+                    await _imageService.UploadImageAsync(
+                        model.MainImage,
+                        "Products",
+                        cancellationToken);
             }
-            // delete old sub image
-            //if (product.ProductSubImages.Any())
-            //{
-            //    foreach (var image in product.ProductSubImages)
-            //    {
-            //        await _imageService.DeleteImageAsync(image.ImageUrl, "products", cancellationToken);
-            //    }
-            //    product.ProductSubImages.Clear();
-            //}
 
-            //if (model.NewSubImages is not null)
-            //{
-            //    foreach (var image in model.NewSubImages)
-            //    {
-            //        var imageurl = await _imageService.UploadImageAsync(image, "Products", cancellationToken);
+            var existingColors = product.ProductColors.ToList();
+            var submittedProductColorIds = model.ProductColors != null
+                ? model.ProductColors.Where(c => c.ProductColorId.HasValue && c.ProductColorId.Value != Guid.Empty).Select(c => c.ProductColorId!.Value).ToHashSet()
+                : new HashSet<Guid>();
+            var submittedColorIds = model.ProductColors != null
+                ? model.ProductColors.Select(c => c.ColorId).ToHashSet()
+                : new HashSet<Guid>();
 
-            //        product.ProductSubImages.Add(new ProductSubImage
-            //        {
-            //            Id = Guid.NewGuid(),
-            //            ImageUrl = imageurl,
-            //            ProductId = product.Id,
-            //        });
-            //    }
-            //}
-
-
-
-
-
-            if (productInDb.ProductColors.Any())
+            // 1. Delete color groups removed by user
+            foreach (var dbColor in existingColors)
             {
+                bool isKept = submittedProductColorIds.Contains(dbColor.Id) || submittedColorIds.Contains(dbColor.ColorId);
 
-                foreach(var color in productInDb.ProductColors)
+                if (!isKept)
                 {
-                    foreach(var image in color.Images)
+                    if (dbColor.Images != null)
                     {
-                        await _imageService.DeleteImageAsync(image.ImageUrl, "Products/Colors", cancellationToken);
+                        foreach (var image in dbColor.Images)
+                        {
+                            await _imageService.DeleteImageAsync(image.ImageUrl, "Products/Colors", cancellationToken);
+                        }
                     }
+                    _productRepository.RemoveProductColor(dbColor);
                 }
-
-
-                //_applicationDbContext.RemoveRange(productInDb.ProductColors);
             }
 
-            foreach (var color in model.ProductColors)
+            // 2. Add or Update submitted color groups
+            if (model.ProductColors != null)
             {
-                var productColor = new ProductColor
+                foreach (var colorVm in model.ProductColors)
                 {
-                    Id = Guid.NewGuid(),
-                    ProductId = productInDb.Id,
-                    ColorId = color.ColorId
-                };
+                    var dbColor = existingColors.FirstOrDefault(c => 
+                        (colorVm.ProductColorId.HasValue && colorVm.ProductColorId.Value != Guid.Empty && c.Id == colorVm.ProductColorId.Value) 
+                        || c.ColorId == colorVm.ColorId);
 
-                if (color.NewImages != null)
-                {
-                    foreach (var image in color.NewImages)
+                    if (dbColor == null)
                     {
-                        var imageUrl = await _imageService.UploadImageAsync(
-                           image,
-                           "Products/Colors",
-                           cancellationToken);
-
-                        productColor.Images.Add(new ProductColorImage
+                        // Brand new color group
+                        var newColor = new ProductColor
                         {
                             Id = Guid.NewGuid(),
-                            ImageUrl = imageUrl
-                        });
+                            ProductId = product.Id,
+                            ColorId = colorVm.ColorId,
+                            Images = new List<ProductColorImage>(),
+                            Variants = new List<ProductVariant>()
+                        };
 
+                        if (colorVm.NewImages != null && colorVm.NewImages.Any())
+                        {
+                            foreach (var image in colorVm.NewImages)
+                            {
+                                var url = await _imageService.UploadImageAsync(image, "Products/Colors", cancellationToken);
+                                newColor.Images.Add(new ProductColorImage
+                                {
+                                    Id = Guid.NewGuid(),
+                                    ImageUrl = url
+                                });
+                            }
+                        }
+
+                        if (colorVm.Variants != null)
+                        {
+                            foreach (var variant in colorVm.Variants)
+                            {
+                                newColor.Variants.Add(new ProductVariant
+                                {
+                                    Id = Guid.NewGuid(),
+                                    SizeId = variant.SizeId,
+                                    Quantity = variant.Quantity,
+                                    IsActive = variant.IsActive
+                                });
+                            }
+                        }
+
+                        product.ProductColors.Add(newColor);
+                    }
+                    else
+                    {
+                        // Update existing color group
+                        dbColor.ColorId = colorVm.ColorId;
+
+                        // a. Clean up deleted images
+                        var keptImageIds = colorVm.ExistingImages != null
+                            ? colorVm.ExistingImages.Select(img => img.ImageUrlId).ToHashSet()
+                            : new HashSet<Guid>();
+
+                        if (dbColor.Images != null)
+                        {
+                            var deletedImages = dbColor.Images.Where(i => !keptImageIds.Contains(i.Id)).ToList();
+                            foreach (var image in deletedImages)
+                            {
+                                await _imageService.DeleteImageAsync(image.ImageUrl, "Products/Colors", cancellationToken);
+                                _productRepository.RemoveProductColorImage(image);
+                            }
+                        }
+
+                        // b. Add new uploaded images
+                        if (colorVm.NewImages != null && colorVm.NewImages.Any())
+                        {
+                            foreach (var image in colorVm.NewImages)
+                            {
+                                var url = await _imageService.UploadImageAsync(image, "Products/Colors", cancellationToken);
+                                dbColor.Images.Add(new ProductColorImage
+                                {
+                                    Id = Guid.NewGuid(),
+                                    ProductColorId = dbColor.Id,
+                                    ImageUrl = url
+                                });
+                            }
+                        }
+
+                        // c. Update variants in-place safely
+                        var existingVariants = dbColor.Variants != null ? dbColor.Variants.ToList() : new List<ProductVariant>();
+                        var submittedVariantIds = colorVm.Variants != null
+                            ? colorVm.Variants.Where(v => v.VariantId.HasValue && v.VariantId.Value != Guid.Empty).Select(v => v.VariantId!.Value).ToHashSet()
+                            : new HashSet<Guid>();
+                        var submittedSizeIds = colorVm.Variants != null
+                            ? colorVm.Variants.Select(v => v.SizeId).ToHashSet()
+                            : new HashSet<Guid>();
+
+                        // Delete removed variants
+                        var deletedVariants = existingVariants.Where(v => !submittedVariantIds.Contains(v.Id) && !submittedSizeIds.Contains(v.SizeId)).ToList();
+                        if (deletedVariants.Any())
+                        {
+                            _productRepository.RemoveVariants(deletedVariants);
+                        }
+
+                        // Update or add variants
+                        if (colorVm.Variants != null)
+                        {
+                            foreach (var variantVm in colorVm.Variants)
+                            {
+                                ProductVariant? dbVariant = null;
+
+                                if (variantVm.VariantId.HasValue && variantVm.VariantId.Value != Guid.Empty)
+                                {
+                                    dbVariant = existingVariants.FirstOrDefault(v => v.Id == variantVm.VariantId.Value);
+                                }
+                                if (dbVariant == null)
+                                {
+                                    dbVariant = existingVariants.FirstOrDefault(v => v.SizeId == variantVm.SizeId);
+                                }
+
+                                if (dbVariant != null)
+                                {
+                                    // Update existing variant in place
+                                    dbVariant.SizeId = variantVm.SizeId;
+                                    dbVariant.Quantity = variantVm.Quantity;
+                                    dbVariant.IsActive = variantVm.IsActive;
+                                }
+                                else
+                                {
+                                    // Add new variant
+                                    dbColor.Variants.Add(new ProductVariant
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        ProductColorId = dbColor.Id,
+                                        SizeId = variantVm.SizeId,
+                                        Quantity = variantVm.Quantity,
+                                        IsActive = variantVm.IsActive
+                                    });
+                                }
+                            }
+                        }
                     }
                 }
-
-                foreach(var variant in color.Variants)
-                {
-                    productColor.Variants.Add(new ProductVariant
-                    {
-                        Id = Guid.NewGuid(),
-                        SizeId = variant.SizeId,
-                        Quantity = variant.Quantity,
-                        IsActive = variant.IsActive,
-                    });
-                }
-
-                productInDb.ProductColors.Add(productColor);
             }
 
             await _productRepository.CommitAsync(cancellationToken);

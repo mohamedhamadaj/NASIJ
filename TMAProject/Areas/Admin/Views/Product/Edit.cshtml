@@ -93,6 +93,7 @@
                         {
                             var colorGroup = Model.ProductColors[cIdx];
                             <div class="color-group card-glass" style="border: 1px solid var(--border-color); background: rgba(255, 255, 255, 0.02); padding: 20px; border-radius: 12px; position: relative;">
+                                <input type="hidden" class="product-color-id-input" name="ProductColors[@cIdx].ProductColorId" value="@colorGroup.ProductColorId" />
                                 <button type="button" class="btn-remove-color" style="position: absolute; top: 12px; right: 12px; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;" title="Remove Color Group">
                                     <i class="fas fa-trash-can" style="font-size: 0.8rem;"></i>
                                 </button>
@@ -119,6 +120,7 @@
                                     <div class="form-group" style="margin-bottom: 0;">
                                         <label class="form-label">Color-Specific Images</label>
                                         <input type="file" class="form-control color-images-input" accept="image/*" multiple style="padding: 6px 12px;" name="ProductColors[@cIdx].NewImages" />
+                                        <div class="color-images-preview-grid" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;"></div>
                                     </div>
                                 </div>
 
@@ -127,11 +129,16 @@
                                     <div style="margin-bottom: 16px;">
                                         <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 8px;">Existing Color Images</span>
                                         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                            @foreach (var img in colorGroup.ExistingImages)
+                                            @for (int imgIdx = 0; imgIdx < colorGroup.ExistingImages.Count; imgIdx++)
                                             {
-                                                <div style="width: 60px; height: 60px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); position: relative;">
+                                                var img = colorGroup.ExistingImages[imgIdx];
+                                                <div class="existing-color-image-thumb" style="width: 60px; height: 60px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); position: relative;">
                                                     <img src="@img.ImageUrl" style="width: 100%; height: 100%; object-fit: cover;" />
-                                                    <input type="hidden" name="ProductColors[@cIdx].ExistingImages.Index" value="@img.ImageUrlId" style="display: none;" />
+                                                    <input type="hidden" class="existing-image-id" name="ProductColors[@cIdx].ExistingImages[@imgIdx].ImageUrlId" value="@img.ImageUrlId" />
+                                                    <input type="hidden" class="existing-image-url" name="ProductColors[@cIdx].ExistingImages[@imgIdx].ImageUrl" value="@img.ImageUrl" />
+                                                    <button type="button" class="btn-remove-existing-color-image" style="position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.6); color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.65rem;" title="Remove Image">
+                                                        <i class="fas fa-xmark"></i>
+                                                    </button>
                                                 </div>
                                             }
                                         </div>
@@ -280,6 +287,7 @@
 @* Templates for JS Variant Management *@
 <template id="colorGroupTemplate">
     <div class="color-group card-glass" style="border: 1px solid var(--border-color); background: rgba(255, 255, 255, 0.02); padding: 20px; border-radius: 12px; position: relative;">
+        <input type="hidden" class="product-color-id-input" value="" />
         <button type="button" class="btn-remove-color" style="position: absolute; top: 12px; right: 12px; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;" title="Remove Color Group">
             <i class="fas fa-trash-can" style="font-size: 0.8rem;"></i>
         </button>
@@ -299,6 +307,7 @@
             <div class="form-group" style="margin-bottom: 0;">
                 <label class="form-label">Color-Specific Images</label>
                 <input type="file" class="form-control color-images-input" accept="image/*" multiple style="padding: 6px 12px;" />
+                <div class="color-images-preview-grid" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;"></div>
             </div>
         </div>
 
@@ -565,6 +574,12 @@
             });
         });
 
+        document.querySelectorAll('.btn-remove-existing-color-image').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.closest('.existing-color-image-thumb').remove();
+            });
+        });
+
         document.querySelectorAll('.add-size-btn').forEach(btn => {
             const container = btn.closest('.color-group').querySelector('.sizes-container');
             btn.addEventListener('click', () => {
@@ -578,6 +593,11 @@
 
                 container.appendChild(sizeNode);
             });
+        });
+
+        // Setup color images preview for initial existing color groups
+        document.querySelectorAll('.color-group').forEach(groupNode => {
+            setupColorImagesPreview(groupNode);
         });
 
         // Add Color Group handler
@@ -608,6 +628,9 @@
             // Trigger one size automatically
             addSizeBtn.click();
 
+            // Setup color images multi-file preview for new group
+            setupColorImagesPreview(groupNode);
+
             // Handle color group remove button click
             removeColorBtn.addEventListener('click', () => {
                 groupNode.remove();
@@ -616,6 +639,48 @@
 
             colorsContainer.appendChild(groupNode);
         });
+
+        function setupColorImagesPreview(groupNode) {
+            const fileInput = groupNode.querySelector('.color-images-input');
+            const previewGrid = groupNode.querySelector('.color-images-preview-grid');
+            if (!fileInput || !previewGrid) return;
+
+            let colorFiles = [];
+
+            fileInput.addEventListener('change', () => {
+                Array.from(fileInput.files).forEach(file => {
+                    colorFiles.push(file);
+                    renderColorThumb(file);
+                });
+                syncInput();
+            });
+
+            function renderColorThumb(file) {
+                const wrap = document.createElement('div');
+                wrap.style.cssText = 'width: 55px; height: 55px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); position: relative;';
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.style.cssText = 'position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.6); color: #fff; border: none; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.65rem;';
+                btn.innerHTML = '<i class="fas fa-xmark"></i>';
+                btn.addEventListener('click', () => {
+                    colorFiles = colorFiles.filter(f => f !== file);
+                    wrap.remove();
+                    syncInput();
+                });
+                wrap.appendChild(img);
+                wrap.appendChild(btn);
+                previewGrid.appendChild(wrap);
+            }
+
+            function syncInput() {
+                const dt = new DataTransfer();
+                colorFiles.forEach(f => dt.items.add(f));
+                fileInput.files = dt.files;
+            }
+        }
 
         function checkNoColorsMsg() {
             if (noColorsMsg && colorsContainer.querySelectorAll('.color-group').length === 0) {
@@ -633,6 +698,12 @@
             }
 
             colorGroups.forEach((group, cIdx) => {
+                // Set ProductColorId name
+                const pcIdInput = group.querySelector('.product-color-id-input');
+                if (pcIdInput) {
+                    pcIdInput.name = `ProductColors[${cIdx}].ProductColorId`;
+                }
+
                 // Set ColorId name
                 const colorSelect = group.querySelector('.color-id-input');
                 colorSelect.name = `ProductColors[${cIdx}].ColorId`;
@@ -640,6 +711,15 @@
                 // Set NewImages name
                 const fileInput = group.querySelector('.color-images-input');
                 fileInput.name = `ProductColors[${cIdx}].NewImages`;
+
+                // Set ExistingImages names
+                const existingThumbs = group.querySelectorAll('.existing-color-image-thumb');
+                existingThumbs.forEach((thumb, eIdx) => {
+                    const idInput = thumb.querySelector('.existing-image-id');
+                    const urlInput = thumb.querySelector('.existing-image-url');
+                    if (idInput) idInput.name = `ProductColors[${cIdx}].ExistingImages[${eIdx}].ImageUrlId`;
+                    if (urlInput) urlInput.name = `ProductColors[${cIdx}].ExistingImages[${eIdx}].ImageUrl`;
+                });
 
                 // Set Size, Qty and Active name attributes
                 const sizeRows = group.querySelectorAll('.variant-row');
