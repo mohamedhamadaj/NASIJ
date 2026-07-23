@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TMAProject.Models.Entities;
 using TMAProject.Models.Enums;
 using TMAProject.ViewModels.Admin.ProductVM;
@@ -20,16 +21,21 @@ public class ProductEditVM
 
     public string? ExistingMainImageUrl { get; set; }
 
+    [ValidateNever]
     public IFormFile? MainImage { get; set; }
 
     public List<ProductSubImageVM> ExistingSubImages { get; set; } = [];
 
+    [ValidateNever]
     public List<IFormFile>? NewSubImages { get; set; }
 
     public ProductStatus Status { get; set; }
 
     public List<ProductColorVM>  ProductColors { get; set; } = [];
+    [ValidateNever]
     public IEnumerable<SelectListItem> Categories { get; set; } = new List<SelectListItem>();
+    [ValidateNever]
     public IEnumerable<SelectListItem> Colors { get; set; } = new List<SelectListItem>();
+    [ValidateNever]
     public IEnumerable<SelectListItem> Sizes { get; set; } = new List<SelectListItem>();
 }

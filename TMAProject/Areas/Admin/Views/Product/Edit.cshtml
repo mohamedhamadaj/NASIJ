@@ -21,6 +21,7 @@
       method="post" enctype="multipart/form-data" id="editProductForm">
     @Html.AntiForgeryToken()
     <input type="hidden" asp-for="ProductId" />
+    <input type="hidden" asp-for="ExistingMainImageUrl" />
 
     <div class="form-grid-two-col">
 
@@ -105,7 +106,7 @@
                                             <option value="">— Choose Color —</option>
                                             @foreach (var c in Model.Colors)
                                             {
-                                                if (c.Value == colorGroup.ColorId.ToString())
+                                                if (string.Equals(c.Value, colorGroup.ColorId.ToString(), StringComparison.OrdinalIgnoreCase))
                                                 {
                                                     <option value="@c.Value" selected>@c.Text</option>
                                                 }
@@ -166,7 +167,7 @@
                                                             <option value="">— Size —</option>
                                                             @foreach (var s in Model.Sizes)
                                                             {
-                                                                if (s.Value == variant.SizeId.ToString())
+                                                                if (string.Equals(s.Value, variant.SizeId.ToString(), StringComparison.OrdinalIgnoreCase))
                                                                 {
                                                                     <option value="@s.Value" selected>@s.Text</option>
                                                                 }
@@ -644,15 +645,15 @@
             const fileInput = groupNode.querySelector('.color-images-input');
             const previewGrid = groupNode.querySelector('.color-images-preview-grid');
             if (!fileInput || !previewGrid) return;
+            if (fileInput.dataset.listenerAttached === "true") return;
+            fileInput.dataset.listenerAttached = "true";
 
             let colorFiles = [];
 
             fileInput.addEventListener('change', () => {
-                Array.from(fileInput.files).forEach(file => {
-                    colorFiles.push(file);
-                    renderColorThumb(file);
-                });
-                syncInput();
+                previewGrid.innerHTML = '';
+                colorFiles = Array.from(fileInput.files);
+                colorFiles.forEach(file => renderColorThumb(file));
             });
 
             function renderColorThumb(file) {
@@ -687,6 +688,47 @@
                 noColorsMsg.style.display = 'block';
             }
         }
+
+        // Initialize event listeners for all existing color groups loaded on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.color-group').forEach(groupNode => {
+                setupColorImagesPreview(groupNode);
+
+                const removeColorBtn = groupNode.querySelector('.btn-remove-color');
+                if (removeColorBtn) {
+                    removeColorBtn.addEventListener('click', () => {
+                        groupNode.remove();
+                        checkNoColorsMsg();
+                    });
+                }
+
+                const addSizeBtn = groupNode.querySelector('.add-size-btn');
+                const sizesContainer = groupNode.querySelector('.sizes-container');
+                if (addSizeBtn && sizesContainer) {
+                    addSizeBtn.addEventListener('click', () => {
+                        const sizeWrap = document.createElement('div');
+                        sizeWrap.innerHTML = sizeRowTemplate.innerHTML.trim();
+                        const sizeNode = sizeWrap.firstChild;
+                        sizeNode.querySelector('.btn-remove-variant').addEventListener('click', () => {
+                            sizeNode.remove();
+                        });
+                        sizesContainer.appendChild(sizeNode);
+                    });
+                }
+
+                groupNode.querySelectorAll('.btn-remove-variant').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        btn.closest('.variant-row').remove();
+                    });
+                });
+
+                groupNode.querySelectorAll('.btn-remove-existing-color-image').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        btn.closest('.existing-color-image-thumb').remove();
+                    });
+                });
+            });
+        });
 
         // Re-index all color groups and nested variants before submit so they bind consecutively starting from 0 (using ProductColors[...])
         document.getElementById('editProductForm').addEventListener('submit', (e) => {

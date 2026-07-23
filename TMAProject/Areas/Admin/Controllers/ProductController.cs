@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
@@ -48,8 +48,20 @@ namespace TMAProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductCreatePageVM model, CancellationToken cancellationToken)
         {
+            Console.WriteLine($"===> [Create POST] Entered with Product Name: {model.Product?.ProductName}");
+            Console.WriteLine($"===> [Create POST] Colors Count: {model.Product?.productColors?.Count}");
+            Console.WriteLine($"===> [Create POST] ModelState.IsValid: {ModelState.IsValid}");
+
             if (!ModelState.IsValid)
             {
+                foreach (var state in ModelState)
+                {
+                    foreach (var error in state.Value.Errors)
+                    {
+                        Console.WriteLine($"===> [Create POST ModelError] Key: '{state.Key}' | Error: '{error.ErrorMessage}' | Exp: '{error.Exception?.Message}'");
+                    }
+                }
+
                 model.Categories = await _categoryRepository.GetCategoriesForDropdownAsync(cancellationToken);
                 model.Colors = await _colorRepository.GetColorsForDropdownAsync(cancellationToken);
                 model.Sizes = await _sizeRepository.GetSizesForDropdownAsync(cancellationToken);
@@ -57,6 +69,7 @@ namespace TMAProject.Areas.Admin.Controllers
             }
 
             var result = await _productService.CreateAsync(model.Product, cancellationToken);
+            Console.WriteLine($"===> [Create POST] CreateAsync Result: Success={result.Success}, Message='{result.Message}'");
 
             if (!result.Success)
             {
@@ -90,8 +103,20 @@ namespace TMAProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ProductEditVM model, CancellationToken cancellationToken)
         {
+            Console.WriteLine($"===> [Edit POST] Entered for ProductId: {model.ProductId}, Name: '{model.Name}'");
+            Console.WriteLine($"===> [Edit POST] Colors Count: {model.ProductColors?.Count}");
+            Console.WriteLine($"===> [Edit POST] ModelState.IsValid: {ModelState.IsValid}");
+
             if (!ModelState.IsValid)
             {
+                foreach (var state in ModelState)
+                {
+                    foreach (var error in state.Value.Errors)
+                    {
+                        Console.WriteLine($"===> [Edit POST ModelError] Key: '{state.Key}' | Error: '{error.ErrorMessage}' | Exp: '{error.Exception?.Message}'");
+                    }
+                }
+
                 model.Categories = await _categoryRepository.GetCategoriesForDropdownAsync(cancellationToken);
                 model.Colors = await _colorRepository.GetColorsForDropdownAsync(cancellationToken);
                 model.Sizes = await _sizeRepository.GetSizesForDropdownAsync(cancellationToken);
@@ -100,6 +125,7 @@ namespace TMAProject.Areas.Admin.Controllers
             }
 
             var result = await _productService.UpdateAsync(model, cancellationToken);
+            Console.WriteLine($"===> [Edit POST] UpdateAsync Result: Success={result.Success}, Message='{result.Message}'");
 
             if (!result.Success)
             {
